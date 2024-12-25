@@ -1,6 +1,4 @@
 rootProject.name = 'jchess'
 include 'core'
-include 'core:desktop'
-findProject(':core:desktop')?.name = 'desktop'
-include 'core'
+include 'desktop'
 
