@@ -1,0 +1,3 @@
+rootProject.name = 'jchess'
+include 'core'
+
