@@ -3,19 +3,25 @@ package me.pepperjackdev.chess;
 import javax.swing.*;
 import java.awt.*;
 
-public class JChessboardPane
+public class JChessboard
     extends JPanel {
 
-    public JChessboardPane() {
-        setLayout(new GridLayout(8, 8));
+    public static final int CHESSBOARD_SQUARES_PER_SIDE = 8;
+
+    private static final String CHESSBOARD_DARK_SQUARES_COLOR = "#99B746";
+    private static final String CHESSBOARD_LIGHT_SQUARES_COLOR = "#CEDECA";
+
+    public JChessboard() {
+        setLayout(new GridLayout(CHESSBOARD_SQUARES_PER_SIDE, CHESSBOARD_SQUARES_PER_SIDE));
         initializeBoard();
     }
 
     private void initializeBoard() {
-        for (int rank = 0; rank < 8; rank++) {
-            for (int file = 0; file < 8; file++) {
+        for (int rank = 0; rank < CHESSBOARD_SQUARES_PER_SIDE; rank++) {
+            for (int file = 0; file < CHESSBOARD_SQUARES_PER_SIDE; file++) {
                 JChessboardSquare square = new JChessboardSquare(rank, file);
-                square.setBackground((rank + file) % 2 == 0 ? Color.BLACK : Color.WHITE);
+                square.setBackground((rank + file) % 2 == 0 ?
+                        Color.decode(CHESSBOARD_LIGHT_SQUARES_COLOR) : Color.decode(CHESSBOARD_DARK_SQUARES_COLOR));
                 add(square);
             }
         }

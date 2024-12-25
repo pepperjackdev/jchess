@@ -1,7 +1,6 @@
 package me.pepperjackdev.chess;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class App
     extends JFrame {
@@ -18,7 +17,7 @@ public class App
         app.setLocationRelativeTo(null);
 
         // Chessboard
-        JChessboardPane chessboardPane = new JChessboardPane();
+        JChessboard chessboardPane = new JChessboard();
         chessboardPane.setSize(800, 800);
         app.add(chessboardPane);
 
