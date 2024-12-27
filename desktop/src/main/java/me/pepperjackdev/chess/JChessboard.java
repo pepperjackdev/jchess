@@ -8,8 +8,8 @@ public class JChessboard
 
     public static final int CHESSBOARD_SQUARES_PER_SIDE = 8;
 
-    private static final String CHESSBOARD_DARK_SQUARES_COLOR = "#99B746";
-    private static final String CHESSBOARD_LIGHT_SQUARES_COLOR = "#CEDECA";
+    public static final String CHESSBOARD_DARK_SQUARES_COLOR = "#99B746";
+    public static final String CHESSBOARD_LIGHT_SQUARES_COLOR = "#CEDECA";
 
     public JChessboard() {
         setLayout(new GridLayout(CHESSBOARD_SQUARES_PER_SIDE, CHESSBOARD_SQUARES_PER_SIDE));
