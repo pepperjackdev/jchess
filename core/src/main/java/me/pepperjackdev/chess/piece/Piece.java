@@ -2,7 +2,7 @@ package me.pepperjackdev.chess.piece;
 
 public class Piece {
     private PieceType type;
-    private PieceSide side;
+    private final PieceSide side;
 
     public Piece(PieceType type, PieceSide side) {
         this.type = type;
