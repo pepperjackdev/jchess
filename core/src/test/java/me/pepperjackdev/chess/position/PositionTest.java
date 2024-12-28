@@ -80,11 +80,35 @@ public class PositionTest {
     }
 
     @Test
-    void testParseFileFromAlgebraicNotation()
+    void testParseFileFromAlgebraicNotation_aa()
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method parseFile = Position.class.getDeclaredMethod("parseFile", String.class);
         parseFile.setAccessible(true);
         assertEquals(27, parseFile.invoke(underTest, "aa"));
+    }
+
+    @Test
+    void testParseFileFromAlgebraicNotation_ba()
+                throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+            Method parseFile = Position.class.getDeclaredMethod("parseFile", String.class);
+            parseFile.setAccessible(true);
+            assertEquals(53, parseFile.invoke(underTest, "ba"));
+    }
+
+    @Test
+    void testParseFileFromAlgebraicNotation_bz()
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method parseFile = Position.class.getDeclaredMethod("parseFile", String.class);
+        parseFile.setAccessible(true);
+        assertEquals(78, parseFile.invoke(underTest, "bz"));
+    }
+
+    @Test
+    void testParseFileFromAlgebraicNotation_zzk()
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method parseFile = Position.class.getDeclaredMethod("parseFile", String.class);
+        parseFile.setAccessible(true);
+        assertEquals(18263, parseFile.invoke(underTest, "zzk"));
     }
 
     @Test
