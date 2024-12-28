@@ -1,4 +1,4 @@
-package me.pepperjackdev.chess.piece;
+package me.pepperjackdev.chess.core.piece;
 
 public class Piece {
     private PieceType type;

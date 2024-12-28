@@ -1,4 +1,4 @@
-package me.pepperjackdev.chess.position;
+package me.pepperjackdev.chess.core.position;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

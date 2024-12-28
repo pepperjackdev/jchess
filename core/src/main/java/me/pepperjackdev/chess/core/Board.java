@@ -1,7 +1,7 @@
-package me.pepperjackdev.chess;
+package me.pepperjackdev.chess.core;
 
-import me.pepperjackdev.chess.piece.Piece;
-import me.pepperjackdev.chess.position.Position;
+import me.pepperjackdev.chess.core.piece.Piece;
+import me.pepperjackdev.chess.core.position.Position;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package me.pepperjackdev.chess.position;
+package me.pepperjackdev.chess.core.position;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

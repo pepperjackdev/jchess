@@ -1,9 +1,9 @@
-package me.pepperjackdev.chess;
+package me.pepperjackdev.chess.core;
 
-import me.pepperjackdev.chess.piece.Piece;
-import me.pepperjackdev.chess.piece.PieceSide;
-import me.pepperjackdev.chess.piece.PieceType;
-import me.pepperjackdev.chess.position.Position;
+import me.pepperjackdev.chess.core.piece.Piece;
+import me.pepperjackdev.chess.core.piece.PieceSide;
+import me.pepperjackdev.chess.core.piece.PieceType;
+import me.pepperjackdev.chess.core.position.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

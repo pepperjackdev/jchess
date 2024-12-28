@@ -1,4 +1,6 @@
-package me.pepperjackdev.chess;
+package me.pepperjackdev.chess.desktop;
+
+import me.pepperjackdev.chess.core.Board;
 
 import javax.swing.*;
 
@@ -17,7 +19,7 @@ public class App
         app.setLocationRelativeTo(null);
 
         // Chessboard
-        JChessboard chessboardPane = new JChessboard();
+        JChessboard chessboardPane = new JChessboard(new Board(16, 16));
         chessboardPane.setSize(800, 800);
         app.add(chessboardPane);
 

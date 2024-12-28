@@ -3,11 +3,11 @@ plugins {
     id 'application'
 }
 
-group = 'me.pepperjackdev.chess'
+group = 'me.pepperjackdev.chess.desktop'
 version = 'unspecified'
 
 application {
-    mainClass = 'me.pepperjackdev.chess.App'
+    mainClass = 'me.pepperjackdev.chess.desktop.App'
 }
 
 repositories {
@@ -17,6 +17,7 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation project(":core")
 }
 
 test {
