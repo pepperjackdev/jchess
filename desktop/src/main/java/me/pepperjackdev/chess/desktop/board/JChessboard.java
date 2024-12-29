@@ -1,6 +1,7 @@
-package me.pepperjackdev.chess.desktop;
+package me.pepperjackdev.chess.desktop.board;
 
 import me.pepperjackdev.chess.core.Board;
+import me.pepperjackdev.chess.core.position.Position;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,6 @@ public class JChessboard
         this.squares = new JChessboardSquare[getNumberOfRanks()][getNumberOfFiles()];
         setLayout(new GridLayout(getNumberOfRanks(), getNumberOfFiles()));
         initializeChessboardSquares();
-        renderChessboardSquares();
     }
 
     public int getNumberOfRanks() {
@@ -30,15 +30,8 @@ public class JChessboard
     private void initializeChessboardSquares() {
         for (int rank = 0; rank < board.getNumberOfRanks(); rank++) {
             for (int file = 0; file < board.getNumberOfFiles(); file++) {
-                squares[rank][file] = new JChessboardSquare(rank, file);
-            }
-        }
-    }
-
-    private void renderChessboardSquares() {
-        for (JChessboardSquare[] files: squares) {
-            for (JChessboardSquare square: files) {
-                add(square);
+                squares[rank][file] = new JChessboardSquare(new Position(rank, file));
+                add(squares[rank][file]);
             }
         }
     }

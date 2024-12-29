@@ -1,6 +1,7 @@
 package me.pepperjackdev.chess.desktop;
 
 import me.pepperjackdev.chess.core.Board;
+import me.pepperjackdev.chess.desktop.board.JChessboard;
 
 import javax.swing.*;
 

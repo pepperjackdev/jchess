@@ -9,7 +9,7 @@ public class PositionTest {
     private Position underTest;
 
     @BeforeEach
-    public void setUp() throws NoSuchFieldException, NoSuchMethodException {
+    public void setUp() {
         underTest = new Position(6, 6);
     }
 
@@ -21,9 +21,8 @@ public class PositionTest {
 
     @Test
     public void testConstructorWithGivenInvalidRankAndFile() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            underTest = new Position(-1, -1);
-        });
+        assertThrows(IllegalArgumentException.class,
+                () -> underTest = new Position(-1, -1));
     }
 
     @Test

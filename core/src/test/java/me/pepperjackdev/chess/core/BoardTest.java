@@ -49,16 +49,14 @@ public class BoardTest {
 
     @Test
     public void testGetPieceAtOutOfBoundsPosition() {
-        assertThrows(IndexOutOfBoundsException.class, () -> {
-            underTest.at(new Position(10, 10));
-        });
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> underTest.at(new Position(10, 10)));
     }
 
     @Test
     public void testPlacePieceAtOutOfBoundsPosition() {
-        assertThrows(IndexOutOfBoundsException.class, () -> {
-            underTest.placeAt(new Piece(null, null), new Position(10, 10));
-        });
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> underTest.placeAt(new Piece(null, null), new Position(10, 10)));
     }
 
     @Test
