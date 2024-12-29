@@ -1,38 +1,35 @@
 package me.pepperjackdev.chess.desktop;
 
+import me.pepperjackdev.chess.core.position.Position;
+import me.pepperjackdev.chess.desktop.config.PositionIndicatorConfig;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class JChessboardSquare
     extends JPanel {
 
+    public static final String CHESSBOARD_DARK_SQUARES_COLOR = "#99B746";
+    public static final String CHESSBOARD_LIGHT_SQUARES_COLOR = "#CEDECA";
+
     private final int rank;
     private final int file;
-    private Image image;
 
-    public JChessboardSquare(int rank, int file, int numberOfRanks, int numberOfFiles) {
+    public JChessboardSquare(int rank, int file) {
         super(new BorderLayout());
         this.rank = rank;
         this.file = file;
-        
-        // the color of the text
-        String nm = (rank + file) % 2 == 0 ? JChessboard.CHESSBOARD_DARK_SQUARES_COLOR : JChessboard.CHESSBOARD_LIGHT_SQUARES_COLOR;
-        Font f = new Font(null, Font.BOLD, 16);
 
-        if (rank == numberOfRanks - 1) {
-            Label info = new Label("%c".formatted((char)file + 'a'));
-            info.setForeground(Color.decode(nm));
-            info.setFont(f);
-            info.setAlignment(Label.RIGHT);
-            this.add(info, BorderLayout.SOUTH);
-        }
+        // getting default configurations
+        setBackground(getSquareBackgroundColor());
+    }
 
-        if (file == 0) {
-            Label info = new Label("%d".formatted(numberOfRanks - (rank)));
-            info.setForeground(Color.decode(nm));
-            info.setFont(f);
-            this.add(info, BorderLayout.NORTH);
-        }
+    private Color getSquareBackgroundColor() {
+        return Color.decode((rank + file) % 2 == 0 ? CHESSBOARD_LIGHT_SQUARES_COLOR : CHESSBOARD_DARK_SQUARES_COLOR);
+    }
+
+    private Color getSquareForegroundColor() {
+        return Color.decode((rank + file) % 2 == 0 ? CHESSBOARD_DARK_SQUARES_COLOR : CHESSBOARD_LIGHT_SQUARES_COLOR);
     }
 
     public int getRank() {

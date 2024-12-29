@@ -37,7 +37,7 @@ public class Board {
             throw new IndexOutOfBoundsException(
                     "Invalid square: rank " + position.getRank() + ", file: " + position.getFile());
         }
-        return Optional.ofNullable(board[getRankIndex(position)][getFileIndex(position)]);
+        return Optional.ofNullable(board[position.getRank()][position.getFile()]);
     }
 
     public Optional<Piece> placeAt(Piece piece, Position position) {
@@ -45,19 +45,10 @@ public class Board {
             throw new IndexOutOfBoundsException(
                     "Invalid square: rank " + position.getRank() + ", file: " + position.getFile());
         }
-        return Optional.of(board[getRankIndex(position)][getFileIndex(position)] = piece);
+        return Optional.of(board[position.getRank()][position.getFile()] = piece);
     }
 
-    private int getRankIndex(Position position) {
-        return position.getRank() - 1;
-    }
-
-    private int getFileIndex(Position position) {
-        return position.getFile() - 1;
-    }
-
-    private boolean isOutOfBounds(Position position) {
-        return position.getRank() < 1 || position.getRank() > numberOfRanks ||
-                position.getFile() < 1 || position.getFile() > numberOfFiles;
+    protected boolean isOutOfBounds(Position position) {
+        return position.getRank() >= numberOfRanks || position.getFile() >= numberOfFiles;
     }
 }

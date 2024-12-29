@@ -9,15 +9,14 @@ public class JChessboard
     extends JPanel {
 
     private final Board board;
-
-    public static final String CHESSBOARD_DARK_SQUARES_COLOR = "#99B746";
-    public static final String CHESSBOARD_LIGHT_SQUARES_COLOR = "#CEDECA";
+    private final JChessboardSquare[][] squares;
 
     public JChessboard(Board board) {
         this.board = board;
-
+        this.squares = new JChessboardSquare[getNumberOfRanks()][getNumberOfFiles()];
         setLayout(new GridLayout(getNumberOfRanks(), getNumberOfFiles()));
-        initializeBoard();
+        initializeChessboardSquares();
+        renderChessboardSquares();
     }
 
     public int getNumberOfRanks() {
@@ -28,12 +27,17 @@ public class JChessboard
         return board.getNumberOfFiles();
     }
 
-    private void initializeBoard() {
+    private void initializeChessboardSquares() {
         for (int rank = 0; rank < board.getNumberOfRanks(); rank++) {
             for (int file = 0; file < board.getNumberOfFiles(); file++) {
-                JChessboardSquare square = new JChessboardSquare(rank, file, getNumberOfRanks(), getNumberOfFiles());
-                square.setBackground((rank + file) % 2 == 0 ?
-                        Color.decode(CHESSBOARD_LIGHT_SQUARES_COLOR) : Color.decode(CHESSBOARD_DARK_SQUARES_COLOR));
+                squares[rank][file] = new JChessboardSquare(rank, file);
+            }
+        }
+    }
+
+    private void renderChessboardSquares() {
+        for (JChessboardSquare[] files: squares) {
+            for (JChessboardSquare square: files) {
                 add(square);
             }
         }

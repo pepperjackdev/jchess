@@ -3,121 +3,56 @@ package me.pepperjackdev.chess.core.position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PositionTest {
     private Position underTest;
 
     @BeforeEach
-    public void setUp() {
-        underTest = new Position(5, 5);
+    public void setUp() throws NoSuchFieldException, NoSuchMethodException {
+        underTest = new Position(6, 6);
     }
 
     @Test
-    void testConstructPositionWithGivenRankAndFile() {
-        assertEquals(5, underTest.getRank());
-        assertEquals(5, underTest.getFile());
+    public void testConstructorWithGivenRankAndFile() {
+        assertEquals(6, underTest.getRank());
+        assertEquals(6, underTest.getFile());
     }
 
     @Test
-    void testConstructWithInvalidRankEqualToZero() {
+    public void testConstructorWithGivenInvalidRankAndFile() {
         assertThrows(IllegalArgumentException.class, () -> {
-            underTest = new Position(0, 1);
+            underTest = new Position(-1, -1);
         });
     }
 
     @Test
-    void testConstructWithInvalidRankLessThanZero() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            underTest = new Position(-1, 1);
-        });
+    public void testCheckInputRankWithValidRank() {
+        assertTrue(Position.checkInputRank(0));
     }
 
     @Test
-    void testConstructWithInvalidFileEqualToZero() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            underTest = new Position(1, 0);
-        });
+    public void testCheckInputFileWithValidFile() {
+        assertTrue(Position.checkInputFile(0));
     }
 
     @Test
-    void testConstructWithInvalidFileLessThanZero() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            underTest = new Position(1, -1);
-        });
+    public void testCheckInputFileWithInvalidRank() {
+        assertFalse(Position.checkInputFile(-1));
     }
 
     @Test
-    void testConstructPositionFromAlgebraicNotation() {
-        underTest = new Position("aa10");
-        assertEquals(10, underTest.getRank());
-        assertEquals(27, underTest.getFile());
+    public void testCheckInputFileWithInvalidFile() {
+        assertFalse(Position.checkInputFile(-1));
     }
 
     @Test
-    void testConstructPositionFromInvalidAlgebraicNotation() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            underTest = new Position("Hello, World!");
-        });
+    public void testGetRank() {
+        assertEquals(6, underTest.getRank());
     }
 
     @Test
-    void testConstructPositionFromInvalidAlgebraicNotationImpossibleRank() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            underTest = new Position("a0");
-        });
-    }
-
-    @Test
-    void testParseRankFromAlgebraicNotation()
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method parseRank = Position.class.getDeclaredMethod("parseRank", String.class);
-        parseRank.setAccessible(true);
-        assertEquals(12345, parseRank.invoke(underTest, "12345"));
-    }
-
-    @Test
-    void testParseFileFromAlgebraicNotation_aa()
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method parseFile = Position.class.getDeclaredMethod("parseFile", String.class);
-        parseFile.setAccessible(true);
-        assertEquals(27, parseFile.invoke(underTest, "aa"));
-    }
-
-    @Test
-    void testParseFileFromAlgebraicNotation_ba()
-                throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-            Method parseFile = Position.class.getDeclaredMethod("parseFile", String.class);
-            parseFile.setAccessible(true);
-            assertEquals(53, parseFile.invoke(underTest, "ba"));
-    }
-
-    @Test
-    void testParseFileFromAlgebraicNotation_bz()
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method parseFile = Position.class.getDeclaredMethod("parseFile", String.class);
-        parseFile.setAccessible(true);
-        assertEquals(78, parseFile.invoke(underTest, "bz"));
-    }
-
-    @Test
-    void testParseFileFromAlgebraicNotation_zzk()
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method parseFile = Position.class.getDeclaredMethod("parseFile", String.class);
-        parseFile.setAccessible(true);
-        assertEquals(18263, parseFile.invoke(underTest, "zzk"));
-    }
-
-    @Test
-    void testGetRank() {
-        assertEquals(5, underTest.getRank());
-    }
-
-    @Test
-    void testGetFile() {
-        assertEquals(5, underTest.getFile());
+    public void testGetFile() {
+        assertEquals(6, underTest.getFile());
     }
 }
