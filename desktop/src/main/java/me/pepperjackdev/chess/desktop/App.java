@@ -1,8 +1,5 @@
 package me.pepperjackdev.chess.desktop;
 
-import me.pepperjackdev.chess.core.Board;
-import me.pepperjackdev.chess.desktop.board.JChessboard;
-
 import javax.swing.*;
 
 public class App
@@ -27,7 +24,6 @@ public class App
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             App app = new App("App");
-            app.add(new JChessboard(new Board()));
             app.setVisible(true);
         });
     }
