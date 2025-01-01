@@ -1,6 +1,10 @@
 package me.pepperjackdev.chess.desktop;
 
 import me.pepperjackdev.chess.core.Board;
+import me.pepperjackdev.chess.core.piece.Piece;
+import me.pepperjackdev.chess.core.piece.PieceSide;
+import me.pepperjackdev.chess.core.piece.PieceType;
+import me.pepperjackdev.chess.core.position.Position;
 
 import javax.swing.*;
 
@@ -24,7 +28,7 @@ public class App
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             App app = new App("JChess");
-            app.add(new Chessboard(new Board()));
+            app.add(new Chessboard());
             app.setVisible(true);
         });
     }

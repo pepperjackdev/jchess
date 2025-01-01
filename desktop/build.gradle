@@ -1,6 +1,14 @@
 plugins {
     id 'java'
     id 'application'
+    id 'idea'
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
 }
 
 group = 'me.pepperjackdev.chess.desktop'
