@@ -1,11 +1,5 @@
 package me.pepperjackdev.chess.desktop;
 
-import me.pepperjackdev.chess.core.Board;
-import me.pepperjackdev.chess.core.piece.Piece;
-import me.pepperjackdev.chess.core.piece.PieceSide;
-import me.pepperjackdev.chess.core.piece.PieceType;
-import me.pepperjackdev.chess.core.position.Position;
-
 import javax.swing.*;
 
 public class App

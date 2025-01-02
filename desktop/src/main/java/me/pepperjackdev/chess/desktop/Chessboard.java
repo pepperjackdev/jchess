@@ -25,7 +25,12 @@ public class Chessboard
         loadBoard();
     }
 
-    public void initializeSquares() {
+    public void placeAt(Piece piece, Position position) {
+        board.placeAt(piece, position);
+        loadBoard();
+    }
+
+    private void initializeSquares() {
         for (int rank = 0; rank < board.getNumberOfRanks(); rank++) {
             for (int file = 0; file < board.getNumberOfFiles(); file++) {
                 squares[rank][file] = new Square(new Position(rank, file));
@@ -34,12 +39,14 @@ public class Chessboard
         }
     }
 
-    public void loadBoard() {
+    private void loadBoard() {
         for (int rank = 0; rank < board.getNumberOfRanks(); rank++) {
             for (int file = 0; file < board.getNumberOfFiles(); file++) {
                 Optional<Piece> piece = board.at(new Position(rank, file));
                 if (piece.isPresent()) {
                     squares[rank][file].setPiece(piece.get());
+                } else {
+                    squares[rank][file].setPiece(null);
                 }
             }
         }

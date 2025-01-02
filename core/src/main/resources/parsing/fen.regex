@@ -1,0 +1,8 @@
+^
+(?:[pnbrqkPNBRQK1-8]{1,8}\/){7}[pnbrqkPNBRQK1-8]{1,8} # Piece placement (8 ranks)
+\ [wb]                                               # Active color (w or b)
+\ (?:K?Q?k?q?|-)                                     # Castling availability (KQkq or -)
+\ (?:[a-h][36]|-)                                    # En passant target square (file and rank, or -)
+\ \d+                                                # Halfmove clock (non-negative integer)
+\ \d+                                                # Fullmove number (positive integer)
+$
