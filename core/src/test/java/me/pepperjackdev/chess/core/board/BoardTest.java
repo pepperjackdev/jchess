@@ -48,6 +48,14 @@ public class BoardTest {
     }
 
     @Test
+    public void testPlacingAndGettingPieceAtRankAndFile() {
+        Piece piece = new Piece(null, null);
+        underTest.placeAt(piece, new Position(2, 2));
+        assertTrue(underTest.at(2, 2).isPresent());
+        assertEquals(piece, underTest.at(2, 2).get());
+    }
+
+    @Test
     public void testGetPieceAtOutOfBoundsPosition() {
         assertThrows(IndexOutOfBoundsException.class,
                 () -> underTest.at(new Position(10, 10)));
@@ -57,6 +65,14 @@ public class BoardTest {
     public void testPlacePieceAtOutOfBoundsPosition() {
         assertThrows(IndexOutOfBoundsException.class,
                 () -> underTest.placeAt(new Piece(null, null), new Position(10, 10)));
+    }
+
+    @Test
+    public void testPlacePieceAtRankAndFile() {
+        Piece piece = new Piece(null, null);
+        underTest.placeAt(piece, 2, 2);
+        assertTrue(underTest.at(new Position(2, 2)).isPresent());
+        assertEquals(piece, underTest.at(new Position(2, 2)).get());
     }
 
     @Test

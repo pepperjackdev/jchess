@@ -40,12 +40,20 @@ public class Board {
         return Optional.ofNullable(board[position.getRank()][position.getFile()]);
     }
 
+    public Optional<Piece> at(int rank, int file) {
+        return at(new Position(rank, file));
+    }
+
     public void placeAt(Piece piece, Position position) {
         if (isOutOfBounds(position)) {
             throw new IndexOutOfBoundsException(
                     "Invalid square: rank " + position.getRank() + ", file: " + position.getFile());
         }
         board[position.getRank()][position.getFile()] = piece;
+    }
+
+    public void placeAt(Piece piece, int rank, int file) {
+        placeAt(piece, new Position(rank, file));
     }
 
     protected boolean isOutOfBounds(Position position) {
