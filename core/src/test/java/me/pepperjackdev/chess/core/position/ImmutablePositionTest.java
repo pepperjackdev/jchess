@@ -5,53 +5,33 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PositionTest {
-    private Position underTest;
+public class ImmutablePositionTest {
+    private ImmutablePosition underTest;
 
     @BeforeEach
     public void setUp() {
-        underTest = new Position(6, 6);
+        underTest = new ImmutablePosition(6, 6);
     }
 
     @Test
     public void testConstructorWithGivenRankAndFile() {
-        assertEquals(6, underTest.getRank());
-        assertEquals(6, underTest.getFile());
+        assertEquals(6, underTest.rank());
+        assertEquals(6, underTest.file());
     }
 
     @Test
     public void testConstructorWithGivenInvalidRankAndFile() {
         assertThrows(IllegalArgumentException.class,
-                () -> underTest = new Position(-1, -1));
-    }
-
-    @Test
-    public void testCheckInputRankWithValidRank() {
-        assertTrue(Position.checkInputRank(0));
-    }
-
-    @Test
-    public void testCheckInputFileWithValidFile() {
-        assertTrue(Position.checkInputFile(0));
-    }
-
-    @Test
-    public void testCheckInputFileWithInvalidRank() {
-        assertFalse(Position.checkInputFile(-1));
-    }
-
-    @Test
-    public void testCheckInputFileWithInvalidFile() {
-        assertFalse(Position.checkInputFile(-1));
+                () -> underTest = new ImmutablePosition(-1, -1));
     }
 
     @Test
     public void testGetRank() {
-        assertEquals(6, underTest.getRank());
+        assertEquals(6, underTest.rank());
     }
 
     @Test
     public void testGetFile() {
-        assertEquals(6, underTest.getFile());
+        assertEquals(6, underTest.file());
     }
 }
