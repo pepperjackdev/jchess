@@ -1,6 +1,7 @@
-package me.pepperjackdev.chess.core;
+package me.pepperjackdev.chess.core.board;
 
 import me.pepperjackdev.chess.core.piece.Piece;
+import me.pepperjackdev.chess.core.position.ImmutablePosition;
 import me.pepperjackdev.chess.core.position.Position;
 
 import java.util.Optional;
@@ -35,28 +36,28 @@ public class Board {
     public Optional<Piece> at(Position position) {
         if (isOutOfBounds(position)) {
             throw new IndexOutOfBoundsException(
-                    "Invalid square: rank " + position.getRank() + ", file: " + position.getFile());
+                    "Invalid square: rank " + position.rank() + ", file: " + position.file());
         }
-        return Optional.ofNullable(board[position.getRank()][position.getFile()]);
+        return Optional.ofNullable(board[position.rank()][position.file()]);
     }
 
     public Optional<Piece> at(int rank, int file) {
-        return at(new Position(rank, file));
+        return at(new ImmutablePosition(rank, file));
     }
 
     public void placeAt(Piece piece, Position position) {
         if (isOutOfBounds(position)) {
             throw new IndexOutOfBoundsException(
-                    "Invalid square: rank " + position.getRank() + ", file: " + position.getFile());
+                    "Invalid square: rank " + position.rank() + ", file: " + position.file());
         }
-        board[position.getRank()][position.getFile()] = piece;
+        board[position.rank()][position.file()] = piece;
     }
 
     public void placeAt(Piece piece, int rank, int file) {
-        placeAt(piece, new Position(rank, file));
+        placeAt(piece, new ImmutablePosition(rank, file));
     }
 
     protected boolean isOutOfBounds(Position position) {
-        return position.getRank() >= numberOfRanks || position.getFile() >= numberOfFiles;
+        return position.rank() >= numberOfRanks || position.file() >= numberOfFiles;
     }
 }
