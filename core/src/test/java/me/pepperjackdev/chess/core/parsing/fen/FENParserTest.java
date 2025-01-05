@@ -1,6 +1,5 @@
-package me.pepperjackdev.chess.core.parsing;
+package me.pepperjackdev.chess.core.parsing.fen;
 
-import me.pepperjackdev.chess.core.parsing.fen.FENParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,8 +39,8 @@ public class FENParserTest {
     @Test
     public void testActiveColorString() {
         assertEquals(
-                "w",
-                underTest.getActiveColorString()
+                'w',
+                underTest.getActiveColorChar()
         );
     }
 

@@ -4,11 +4,13 @@ import me.pepperjackdev.chess.core.board.Board;
 import me.pepperjackdev.chess.core.piece.Side;
 import me.pepperjackdev.chess.core.position.Position;
 
+import java.util.Optional;
+
 public class GameState {
     private final Board piecePlacementData;
     private Side activeColor;
     private CastlingRights castlingRights;
-    private Position enPassantTargetSquare;
+    private Optional<Position> enPassantTargetSquare;
     private int halfMoveClock;
     private int fullMoveCounter;
 
@@ -21,7 +23,20 @@ public class GameState {
         this.piecePlacementData = piecePlacementData;
         this.activeColor = activeColor;
         this.castlingRights = castlingRights;
-        this.enPassantTargetSquare = enPassantTargetSquare;
+        this.enPassantTargetSquare = Optional.of(enPassantTargetSquare);
+        this.halfMoveClock = halfMoveClock;
+        this.fullMoveCounter = fullMoveCounter;
+    }
+
+    public GameState(Board piecePlacementData,
+                     Side activeColor,
+                     CastlingRights castlingRights,
+                     int halfMoveClock,
+                     int fullMoveCounter) {
+        this.piecePlacementData = piecePlacementData;
+        this.activeColor = activeColor;
+        this.castlingRights = castlingRights;
+        this.enPassantTargetSquare = Optional.empty();
         this.halfMoveClock = halfMoveClock;
         this.fullMoveCounter = fullMoveCounter;
     }
@@ -38,7 +53,7 @@ public class GameState {
         return this.castlingRights;
     }
 
-    public Position getEnPassantTargetSquare() {
+    public Optional<Position> getEnPassantTargetSquare() {
         return this.enPassantTargetSquare;
     }
 

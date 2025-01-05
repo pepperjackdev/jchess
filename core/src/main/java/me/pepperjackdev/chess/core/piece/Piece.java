@@ -34,4 +34,9 @@ public class Piece {
     public int hashCode() {
         return Objects.hash(type, side);
     }
+
+    @Override
+    public String toString() {
+        return type.toString() + " " + side.toString();
+    }
 }
