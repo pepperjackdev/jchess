@@ -1,7 +1,7 @@
 package me.pepperjackdev.chess.desktop.piece;
 
 import me.pepperjackdev.chess.core.piece.Piece;
-import me.pepperjackdev.chess.core.piece.PieceSide;
+import me.pepperjackdev.chess.core.piece.Side;
 import me.pepperjackdev.chess.core.piece.PieceType;
 import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
 import org.apache.batik.bridge.BridgeContext;
@@ -99,7 +99,7 @@ public class PieceIcon {
         };
     }
 
-    private int getPieceRowIndex(PieceSide side) {
+    private int getPieceRowIndex(Side side) {
         return switch (side) {
             case WHITE -> 0;
             case BLACK -> 1;

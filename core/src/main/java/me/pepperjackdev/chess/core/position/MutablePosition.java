@@ -8,16 +8,20 @@ public class MutablePosition
 
     public MutablePosition(int rank, int file) {
 
-        if (!Position.checkInputRank(rank)) {
+        if (!Position.isValidRank(rank)) {
             throw new IllegalArgumentException("Invalid rank: " + rank);
         }
 
-        if (!Position.checkInputFile(file)) {
+        if (!Position.isValidFile(file)) {
             throw new IllegalArgumentException("Invalid file: " + file);
         }
 
         this.rank = rank;
         this.file = file;
+    }
+
+    public MutablePosition(Position position) {
+        this(position.rank(), position.file());
     }
 
     @Override
@@ -31,27 +35,27 @@ public class MutablePosition
     }
 
     public void setRank(int rank) {
+        //if (!Position.isValidRank(rank)) {
+        //    throw new IllegalArgumentException("Invalid rank: " + rank);
+        //}
+
         this.rank = rank;
     }
 
     public void setFile(int file) {
+        //if (!Position.isValidFile(file)) {
+        //    throw new IllegalArgumentException("Invalid file: " + file);
+        //}
+
         this.file = file;
     }
 
     public void moveByRanks(int ranks) {
-        if (this.rank + ranks < 0) {
-            throw new IllegalArgumentException("Not valid position: negative rank");
-        }
-
-        this.rank += ranks;
+        setRank(rank + ranks);
     }
 
     public void moveByFiles(int files) {
-        if (this.file + files < 0) {
-            throw new IllegalArgumentException("Not valid position: negative file");
-        }
-
-        this.file += files;
+        setFile(file + files);
     }
 
     public void moveBy(int ranks, int files) {
@@ -73,5 +77,13 @@ public class MutablePosition
 
     public void moveToPrevFile() {
         moveByFiles(-1);
+    }
+
+    public void skipByRanks(int ranks) {
+        moveByRanks(ranks + 1);
+    }
+
+    public void skipByFiles(int files) {
+        moveByFiles(files + 1);
     }
 }

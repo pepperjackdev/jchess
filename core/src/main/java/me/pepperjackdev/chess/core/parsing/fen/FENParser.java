@@ -1,17 +1,22 @@
-package me.pepperjackdev.chess.core.parsing;
+package me.pepperjackdev.chess.core.parsing.fen;
 
+import me.pepperjackdev.chess.core.board.Board;
+import me.pepperjackdev.chess.core.board.StandardBoard;
+import me.pepperjackdev.chess.core.game.state.GameState;
 import me.pepperjackdev.chess.core.piece.Piece;
-import me.pepperjackdev.chess.core.piece.PieceSide;
 import me.pepperjackdev.chess.core.piece.PieceType;
+import me.pepperjackdev.chess.core.piece.Side;
 import me.pepperjackdev.chess.core.position.MutablePosition;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * A Forsyth-Edwards Notation parser
+ * A Forsyth-Edwards Notation parser for
+ * standard chess.
  */
-public class FENParser {
+public class FENParser
+    implements Parser {
 
     /**
      * The regular expression that represents a FEN string
@@ -19,7 +24,7 @@ public class FENParser {
     private static final String FEN_REGEX =
             "(?<piecePlacement>(?:[pnbrqkPNBRQK1-8]{1,8}/){7}[pnbrqkPNBRQK1-8]{1,8})\\s" +  // Piece placement data
                     "(?<activeColor>[wb])\\s" +                                             // Active color
-                    "(?<castlingAvailability>K?Q?k?q?|-)\\s" +                              // Castling availability
+                    "(?<castlingRights>K?Q?k?q?|-)\\s" +                                    // Castling rights
                     "(?<enPassantTargetSquare>[a-h][36]|-)\\s" +                            // En passant target square
                     "(?<halfmoveClock>\\d+)\\s" +                                           // Halfmove clock
                     "(?<fullmoveNumber>\\d+)";                                              // Fullmove number
@@ -50,8 +55,8 @@ public class FENParser {
         return matcher.group("activeColor");
     }
 
-    public String getCastlingAvailabilityString() {
-        return matcher.group("castlingAvailability");
+    public String getCastlingRightsString() {
+        return matcher.group("castlingRights");
     }
 
     public String getEnPassantTargetSquareString() {
@@ -66,55 +71,64 @@ public class FENParser {
         return matcher.group("fullmoveNumber");
     }
 
-    public Piece[][] getPiecePlacementData(int numberOfRanks, int numberOfFiles) {
-        MutablePosition position = new MutablePosition(numberOfRanks - 1, 0);
-        Piece[][] piecePlacementData = new Piece[numberOfRanks][numberOfFiles];
+    public Board parsePiecePlacementData() {
+        Board board = new StandardBoard();
+        MutablePosition position = new MutablePosition(board.getTopLeftPosition());
 
         for (String rank: getPiecePlacementDataString().split("/")) {
             for (char placementSymbol: rank.toCharArray()) {
-                if (placementSymbol >= '1' && placementSymbol <= '9') {
-                    // the placement symbol represents a white space over the chessboard
-                    int filesToSkip = placementSymbol - '0';
-                    System.out.println("Skipping file " + filesToSkip);
-                    position.moveByFiles(filesToSkip);
+
+                // If the placement symbol is about skipping ranks
+                if (placementSymbol >= '1' && placementSymbol <= '8') {
+                    int ranksToSkip = placementSymbol - '0';
+                    position.skipByRanks(ranksToSkip);
                     continue;
                 }
 
-                Piece toPlace = new Piece(
-                        getPieceType(placementSymbol),
-                        getPieceSide(placementSymbol)
+                // The placement symbol is intended to be translated into a new Piece to place
+                Piece piece = new Piece(
+                        parsePieceType(placementSymbol),
+                        parseSide(placementSymbol)
                 );
 
-                System.out.printf("Placing %s at %d-%d\n", toPlace, position.rank(), position.file());
-                piecePlacementData[position.rank()][position.file()] = toPlace;
+                board.placeAt(piece, position);
 
-                position.moveToNextFile();
+                // Let's increment the position rank index
+                position.moveToNextRank();
             }
 
-            position.setFile(0);
-
-            if (position.rank() > 0) {
-                position.moveToPrevRank();
-            }
+            // Let's reset the rank position
+            position.setRank(0);
+            // Let's move to previous (lower) file
+            position.moveToPrevFile();
         }
 
-        return piecePlacementData;
+        return board;
     }
 
-    private PieceType getPieceType(char piecePlacementSymbol) {
-        return switch (Character.toLowerCase(piecePlacementSymbol)) {
+    private PieceType parsePieceType(char pieceTypeChar) {
+        return switch (Character.toLowerCase(pieceTypeChar)) {
             case 'p' -> PieceType.PAWN;
             case 'n' -> PieceType.KNIGHT;
             case 'b' -> PieceType.BISHOP;
             case 'r' -> PieceType.ROOK;
             case 'q' -> PieceType.QUEEN;
             case 'k' -> PieceType.KING;
-            default ->
-                    throw new IllegalStateException("Unexpected value: " + Character.toLowerCase(piecePlacementSymbol));
+            default -> throw new IllegalArgumentException("Invalid piece type: " + pieceTypeChar);
         };
     }
 
-    private PieceSide getPieceSide(char piecePlacementSymbol) {
-        return (Character.isUpperCase(piecePlacementSymbol)) ? PieceSide.WHITE : PieceSide.BLACK;
+    private Side parseSide(char sideChar) {
+        return Character.isUpperCase(sideChar) ? Side.WHITE : Side.BLACK;
+    }
+
+    @Override
+    public GameState parse(String fen) {
+        return null;
+    }
+
+    @Override
+    public String serialize(GameState gameState) {
+        return "";
     }
 }

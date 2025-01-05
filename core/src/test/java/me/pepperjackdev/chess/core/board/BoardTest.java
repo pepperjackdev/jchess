@@ -12,7 +12,7 @@ public class BoardTest {
 
     @BeforeEach
     public void setUp() {
-        underTest = new Board();
+        underTest = new Board(8, 8);
     }
 
     @Test
@@ -20,12 +20,6 @@ public class BoardTest {
         underTest = new Board(3, 9);
         assertEquals(3, underTest.getNumberOfRanks());
         assertEquals(9, underTest.getNumberOfFiles());
-    }
-
-    @Test
-    public void testConstructBoardWithDefaultNumberOfRanksAndNumberOfFiles() {
-        assertEquals(8, underTest.getNumberOfRanks());
-        assertEquals(8, underTest.getNumberOfFiles());
     }
 
     @Test

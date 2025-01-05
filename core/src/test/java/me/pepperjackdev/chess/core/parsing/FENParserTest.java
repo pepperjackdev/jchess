@@ -1,5 +1,6 @@
 package me.pepperjackdev.chess.core.parsing;
 
+import me.pepperjackdev.chess.core.parsing.fen.FENParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,10 +46,10 @@ public class FENParserTest {
     }
 
     @Test
-    public void testGetCastlingAvailabilityString() {
+    public void testGetCastlingRightsString() {
         assertEquals(
                 "KQkq",
-                underTest.getCastlingAvailabilityString()
+                underTest.getCastlingRightsString()
         );
     }
 

@@ -18,11 +18,27 @@ public interface Position {
      */
     int file();
 
-    static boolean checkInputRank(int rank) {
+    /**
+     * Checks if the given rank is valid or not.
+     * Valid ranks are numbers equal or greater than 0.
+     *
+     * @param rank a number representing a rank index on the chessboard
+     *
+     * @return true if rank is equal or greater than 0; false otherwise
+     */
+    static boolean isValidRank(int rank) {
         return rank >= 0;
     }
 
-    static boolean checkInputFile(int file) {
+    /**
+     * Checks if the given file is valid or not.
+     * Valid files are numbers equal or greater than 0.
+     *
+     * @param file a number representing a file index on the chessboard
+     *
+     * @return true if file is equal or greater than 0; false otherwise
+     */
+    static boolean isValidFile(int file) {
         return file >= 0;
     }
 }

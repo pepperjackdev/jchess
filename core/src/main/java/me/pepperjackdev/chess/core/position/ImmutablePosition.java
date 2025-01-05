@@ -4,11 +4,11 @@ public record ImmutablePosition(int rank, int file)
         implements Position {
 
     public ImmutablePosition {
-        if (!Position.checkInputRank(rank)) {
+        if (!Position.isValidRank(rank)) {
             throw new IllegalArgumentException("Invalid rank: " + rank);
         }
 
-        if (!Position.checkInputFile(file)) {
+        if (!Position.isValidFile(file)) {
             throw new IllegalArgumentException("Invalid file: " + file);
         }
 

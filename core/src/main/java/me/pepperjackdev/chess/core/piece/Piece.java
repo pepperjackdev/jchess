@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class Piece {
     private PieceType type;
-    private final PieceSide side;
+    private final Side side;
 
-    public Piece(PieceType type, PieceSide side) {
+    public Piece(PieceType type, Side side) {
         this.type = type;
         this.side = side;
     }
@@ -19,7 +19,7 @@ public class Piece {
         this.type = type;
     }
 
-    public PieceSide getSide() {
+    public Side getSide() {
         return side;
     }
 

@@ -1,7 +1,7 @@
 package me.pepperjackdev.chess.desktop;
 
 import me.pepperjackdev.chess.core.piece.Piece;
-import me.pepperjackdev.chess.core.position.Position;
+import me.pepperjackdev.chess.core.position.ImmutablePosition;
 import me.pepperjackdev.chess.desktop.piece.PieceIcon;
 
 import javax.swing.*;
@@ -26,9 +26,9 @@ public class Square
 
     private Piece piece;
 
-    public Square(Position position) {
+    public Square(ImmutablePosition position) {
         setBackground(
-                (position.getRank() + position.getFile()) % 2 == 0 ?
+                (position.rank() + position.file()) % 2 == 0 ?
                         DARK_SQUARES_COLOR : LIGHT_SQUARES_COLOR
         );
     }

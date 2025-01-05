@@ -1,8 +1,11 @@
 package me.pepperjackdev.chess.desktop;
 
-import me.pepperjackdev.chess.core.Board;
+import me.pepperjackdev.chess.core.board.Board;
+import me.pepperjackdev.chess.core.board.StandardBoard;
+import me.pepperjackdev.chess.core.parsing.fen.FENParser;
 import me.pepperjackdev.chess.core.piece.Piece;
-import me.pepperjackdev.chess.core.position.Position;
+import me.pepperjackdev.chess.core.position.ImmutablePosition;
+import me.pepperjackdev.chess.core.position.MutablePosition;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +19,8 @@ public class Chessboard
 
     public Chessboard() {
         // initializing fields
-        this.board = new Board();
+        FENParser parser = new FENParser("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        this.board = parser.parsePiecePlacementData();
         this.squares = new Square[board.getNumberOfRanks()][board.getNumberOfFiles()];
 
         // loading chessboard
@@ -25,7 +29,7 @@ public class Chessboard
         loadBoard();
     }
 
-    public void placeAt(Piece piece, Position position) {
+    public void placeAt(Piece piece, ImmutablePosition position) {
         board.placeAt(piece, position);
         loadBoard();
     }
@@ -33,22 +37,29 @@ public class Chessboard
     private void initializeSquares() {
         for (int rank = 0; rank < board.getNumberOfRanks(); rank++) {
             for (int file = 0; file < board.getNumberOfFiles(); file++) {
-                squares[rank][file] = new Square(new Position(rank, file));
+                squares[rank][file] = new Square(new ImmutablePosition(rank, file));
                 add(squares[rank][file]);
             }
         }
     }
 
     private void loadBoard() {
+        MutablePosition position = new MutablePosition(board.getTopLeftPosition());
         for (int rank = 0; rank < board.getNumberOfRanks(); rank++) {
             for (int file = 0; file < board.getNumberOfFiles(); file++) {
-                Optional<Piece> piece = board.at(new Position(rank, file));
+
+                Optional<Piece> piece = board.at(position);
                 if (piece.isPresent()) {
                     squares[rank][file].setPiece(piece.get());
                 } else {
                     squares[rank][file].setPiece(null);
                 }
+                squares[rank][file].repaint();
+
+                position.moveToNextRank();
             }
+            position.moveToPrevFile();
+            position.setRank(0);
         }
     }
 }
