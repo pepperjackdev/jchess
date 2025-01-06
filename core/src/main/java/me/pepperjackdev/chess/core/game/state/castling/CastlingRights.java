@@ -1,8 +1,8 @@
-package me.pepperjackdev.chess.core.game.state;
+package me.pepperjackdev.chess.core.game.state.castling;
 
 public class CastlingRights {
 
-    class SideCastlingRights {
+    static class SideCastlingRights {
         boolean kingSide;
         boolean queenSide;
 
@@ -23,8 +23,8 @@ public class CastlingRights {
         this.blackCastlingRights = new SideCastlingRights(blackKingSide, blackQueenSide);
     }
 
-    public CastlingRights() {
-        this(false, false, false, false);
+    public CastlingRights(boolean allCanCastle) {
+        this(allCanCastle, allCanCastle, allCanCastle, allCanCastle);
     }
 
     public boolean whiteCanCastleKingSide() {

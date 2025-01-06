@@ -2,7 +2,7 @@ package me.pepperjackdev.chess.core.parsing.fen;
 
 import me.pepperjackdev.chess.core.board.Board;
 import me.pepperjackdev.chess.core.board.StandardBoard;
-import me.pepperjackdev.chess.core.game.state.CastlingRights;
+import me.pepperjackdev.chess.core.game.state.castling.CastlingRights;
 import me.pepperjackdev.chess.core.game.state.GameState;
 import me.pepperjackdev.chess.core.parsing.Parser;
 import me.pepperjackdev.chess.core.piece.Piece;
@@ -135,7 +135,7 @@ public class FENParser
     }
 
     public CastlingRights parseCastlingRights() {
-        CastlingRights castlingRights = new CastlingRights();
+        CastlingRights castlingRights = new CastlingRights(false);
 
         // reading the castling rights chars
         for (char castlingRightSymbol: getCastlingRightsString().toCharArray()) {
