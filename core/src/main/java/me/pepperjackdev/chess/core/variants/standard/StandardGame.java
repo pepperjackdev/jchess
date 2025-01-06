@@ -1,9 +1,8 @@
-package me.pepperjackdev.chess.core.game;
+package me.pepperjackdev.chess.core.variants.standard;
 
-import me.pepperjackdev.chess.core.board.StandardBoard;
+import me.pepperjackdev.chess.core.game.Game;
 import me.pepperjackdev.chess.core.game.state.castling.CastlingRights;
 import me.pepperjackdev.chess.core.game.state.GameState;
-import me.pepperjackdev.chess.core.game.state.StandardGameState;
 import me.pepperjackdev.chess.core.piece.Side;
 
 public class StandardGame

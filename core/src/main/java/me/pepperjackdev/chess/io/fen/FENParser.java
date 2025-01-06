@@ -1,10 +1,9 @@
-package me.pepperjackdev.chess.core.parsing.fen;
+package me.pepperjackdev.chess.io.fen;
 
-import me.pepperjackdev.chess.core.board.Board;
-import me.pepperjackdev.chess.core.board.StandardBoard;
+import me.pepperjackdev.chess.core.variants.standard.StandardBoard;
+import me.pepperjackdev.chess.core.variants.standard.StandardGameState;
 import me.pepperjackdev.chess.core.game.state.castling.CastlingRights;
 import me.pepperjackdev.chess.core.game.state.GameState;
-import me.pepperjackdev.chess.core.parsing.Parser;
 import me.pepperjackdev.chess.core.piece.Piece;
 import me.pepperjackdev.chess.core.piece.PieceType;
 import me.pepperjackdev.chess.core.piece.Side;
@@ -19,8 +18,7 @@ import java.util.regex.Pattern;
  * A Forsyth-Edwards Notation parser for
  * standard chess.
  */
-public class FENParser
-    implements Parser {
+public class FENParser {
 
     /**
      * The regular expression that represents a FEN string
@@ -75,12 +73,12 @@ public class FENParser
         return matcher.group("fullmoveNumber");
     }
 
-    public Board parsePiecePlacementData() {
-        Board board = new StandardBoard();
+    public StandardBoard parsePiecePlacementData() {
+        StandardBoard board = new StandardBoard();
         MutablePosition position = new MutablePosition(board.getTopLeftPosition());
 
-        for (String rank: getPiecePlacementDataString().split("/")) {
-            for (char placementSymbol: rank.toCharArray()) {
+        for (String rank : getPiecePlacementDataString().split("/")) {
+            for (char placementSymbol : rank.toCharArray()) {
 
                 // If the placement symbol is about skipping ranks
                 if (placementSymbol >= '1' && placementSymbol <= '8') {
@@ -138,7 +136,7 @@ public class FENParser
         CastlingRights castlingRights = new CastlingRights(false);
 
         // reading the castling rights chars
-        for (char castlingRightSymbol: getCastlingRightsString().toCharArray()) {
+        for (char castlingRightSymbol : getCastlingRightsString().toCharArray()) {
             if (castlingRightSymbol == '-') {
                 // no one could castle in any way
                 break;
@@ -173,13 +171,14 @@ public class FENParser
         return Integer.parseInt(getFullmoveNumberString());
     }
 
-    @Override
     public GameState parse(String input) {
-        return null;
-    }
-
-    @Override
-    public String serialize(GameState gameState) {
-        return "";
+        return new StandardGameState(
+                parsePiecePlacementData(),
+                parseActiveColor(),
+                parseCastlingRights(),
+                parseEnPassantTargetSquare().orElse(null),
+                parseHalfmoveClock(),
+                parseFullmoveNumber()
+        );
     }
 }

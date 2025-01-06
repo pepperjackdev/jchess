@@ -1,4 +1,4 @@
-package me.pepperjackdev.chess.core.parsing.fen;
+package me.pepperjackdev.chess.io.fen;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

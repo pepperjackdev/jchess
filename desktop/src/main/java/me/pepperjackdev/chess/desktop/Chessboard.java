@@ -1,8 +1,7 @@
 package me.pepperjackdev.chess.desktop;
 
 import me.pepperjackdev.chess.core.board.Board;
-import me.pepperjackdev.chess.core.board.StandardBoard;
-import me.pepperjackdev.chess.core.parsing.fen.FENParser;
+import me.pepperjackdev.chess.io.fen.FENParser;
 import me.pepperjackdev.chess.core.piece.Piece;
 import me.pepperjackdev.chess.core.position.ImmutablePosition;
 import me.pepperjackdev.chess.core.position.MutablePosition;

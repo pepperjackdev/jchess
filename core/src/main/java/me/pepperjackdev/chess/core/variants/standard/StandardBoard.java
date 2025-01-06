@@ -1,4 +1,6 @@
-package me.pepperjackdev.chess.core.board;
+package me.pepperjackdev.chess.core.variants.standard;
+
+import me.pepperjackdev.chess.core.board.Board;
 
 /**
  * A standard chessboard with 8 ranks and 8 files
