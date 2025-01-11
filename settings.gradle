@@ -1,4 +1,3 @@
 rootProject.name = 'jchess'
 include 'core'
-include 'desktop'
 

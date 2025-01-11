@@ -1,5 +1,6 @@
 package me.pepperjackdev.chess.core.piece;
 
-public enum Side {
-    BLACK, WHITE;
+public enum PieceSide {
+    BLACK,
+    WHITE
 }

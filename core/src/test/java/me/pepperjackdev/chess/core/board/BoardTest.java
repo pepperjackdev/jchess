@@ -1,9 +1,13 @@
 package me.pepperjackdev.chess.core.board;
 
 import me.pepperjackdev.chess.core.piece.Piece;
-import me.pepperjackdev.chess.core.position.ImmutablePosition;
+import me.pepperjackdev.chess.core.piece.PieceSide;
+import me.pepperjackdev.chess.core.piece.PieceType;
+import me.pepperjackdev.chess.core.position.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,71 +15,51 @@ public class BoardTest {
     private Board underTest;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         underTest = new Board(8, 8);
     }
 
     @Test
-    public void testConstructBoardWithGivenNumberOfRanksAndNumberOfFiles() {
-        underTest = new Board(3, 9);
-        assertEquals(3, underTest.getNumberOfRanks());
-        assertEquals(9, underTest.getNumberOfFiles());
+    void testConstructBoard() {
+        assertEquals(8, underTest.getNumberOfRows());
+        assertEquals(8, underTest.getNumberOfColumns());
     }
 
     @Test
-    public void testGetNumberOfRanks() {
-        assertEquals(8, underTest.getNumberOfRanks());
+    void testGetPieceAtPosition() {
+        Piece piece = new Piece(PieceType.PAWN, PieceSide.WHITE);
+        underTest.setPiece(new Position(4, 4), piece);
+        Optional<Piece> result = underTest.getPiece(new Position(4, 4));
+        assertTrue(result.isPresent());
+        assertEquals(piece, result.get());
     }
 
     @Test
-    public void testGetNumberOfFiles() {
-        assertEquals(8, underTest.getNumberOfFiles());
+    void testSetPieceAtPosition() {
+        Piece piece = new Piece(PieceType.PAWN, PieceSide.WHITE);
+        Optional<Piece> result = underTest.setPiece(new Position(4, 4), piece);
+        assertTrue(result.isEmpty());
     }
 
     @Test
-    public void testPlacingAndGettingPieceAtPosition() {
-        Piece piece = new Piece(null, null);
-        underTest.placeAt(piece, new ImmutablePosition(0, 0));
-
-        assertTrue(underTest.at(new ImmutablePosition(0, 0)).isPresent());
-        assertEquals(piece, underTest.at(new ImmutablePosition(0, 0)).get());
-    }
-
-    @Test
-    public void testPlacingAndGettingPieceAtRankAndFile() {
-        Piece piece = new Piece(null, null);
-        underTest.placeAt(piece, new ImmutablePosition(2, 2));
-        assertTrue(underTest.at(2, 2).isPresent());
-        assertEquals(piece, underTest.at(2, 2).get());
-    }
-
-    @Test
-    public void testGetPieceAtOutOfBoundsPosition() {
+    void testGetPieceAtInvalidPosition() {
         assertThrows(IndexOutOfBoundsException.class,
-                () -> underTest.at(new ImmutablePosition(10, 10)));
+                () -> underTest.getPiece(new Position(100, 100)));
     }
 
     @Test
-    public void testPlacePieceAtOutOfBoundsPosition() {
+    void testPollPieceAtPosition() {
+        Piece piece = new Piece(PieceType.PAWN, PieceSide.WHITE);
+        underTest.setPiece(new Position(4, 4), piece);
+        Optional<Piece> result = underTest.pollPiece(new Position(4, 4));
+        assertTrue(result.isPresent());
+        assertEquals(piece, result.get());
+        assertTrue(underTest.getPiece(new Position(4, 4)).isEmpty());
+    }
+
+    @Test
+    void testSetPieceAtInvalidPosition() {
         assertThrows(IndexOutOfBoundsException.class,
-                () -> underTest.placeAt(new Piece(null, null), new ImmutablePosition(10, 10)));
-    }
-
-    @Test
-    public void testPlacePieceAtRankAndFile() {
-        Piece piece = new Piece(null, null);
-        underTest.placeAt(piece, 2, 2);
-        assertTrue(underTest.at(new ImmutablePosition(2, 2)).isPresent());
-        assertEquals(piece, underTest.at(new ImmutablePosition(2, 2)).get());
-    }
-
-    @Test
-    public void testIsOutOfBoundsWithOutOfBoundsPosition_OutOfBoundsRank() {
-        assertTrue(underTest.isOutOfBounds(new ImmutablePosition(10, 0)));
-    }
-
-    @Test
-    public void testIsOutOfBoundsWithOutOfBoundsPosition_OutOfBoundsFile() {
-        assertTrue(underTest.isOutOfBounds(new ImmutablePosition(10, 0)));
+                () -> underTest.setPiece(new Position(100, 100), new Piece(PieceType.PAWN, PieceSide.WHITE)));
     }
 }

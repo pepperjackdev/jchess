@@ -1,21 +1,22 @@
 package me.pepperjackdev.chess.core.game;
 
-import me.pepperjackdev.chess.core.game.state.GameState;
+import me.pepperjackdev.chess.core.board.Board;
+import me.pepperjackdev.chess.core.move.Move;
+import me.pepperjackdev.chess.core.piece.Piece;
 
-/**
- * Represents a single Chess match
- */
-public abstract class Game {
+import java.util.Optional;
 
-    private final GameState state;
+public class Game {
+    private Board board;
 
-    public Game(GameState state) {
-        this.state = state;
+    public Game(Board board) {
+        this.board = board;
     }
 
-    public Game() {
-        this.state = loadDefaultGameState();
-    }
+    public Optional<Piece> move(Move move) {
+        Piece piece = board.pollPiece(move.from())
+                .orElseThrow(() -> new IllegalArgumentException("No piece at " + move.from()));
 
-    protected abstract GameState loadDefaultGameState();
+        return board.setPiece(move.to(), piece);
+    }
 }
