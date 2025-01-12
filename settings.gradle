@@ -1,4 +1,4 @@
 rootProject.name = 'jchess'
 include 'core'
-include 'cli'
+include 'desktop'
 

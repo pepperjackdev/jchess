@@ -26,31 +26,28 @@ public class Board {
     }
 
     public Optional<Piece> getPiece(Position position) {
-        if (isOutOfBoundsPosition(position)) {
-            throw new IndexOutOfBoundsException("Position out of bounds");
-        }
-
         return Optional.ofNullable(
-                piece[position.row() * numberOfColumns + position.column()]
+                piece[getPieceIndex(position)]
         );
     }
 
     public Optional<Piece> setPiece(Position position, Piece piece) {
-        if (isOutOfBoundsPosition(position)) {
-            throw new IndexOutOfBoundsException("Position out of bounds");
-        }
-
-        Piece oldPiece = this.piece[getPieceIndex(position)];
-        this.piece[getPieceIndex(position)] = piece;
-
+        int index = getPieceIndex(position);
+        Piece oldPiece = this.piece[index];
+        this.piece[index] = piece;
         return Optional.ofNullable(oldPiece);
     }
 
-    public Optional<Piece> pollPiece(Position position) {
+    public Optional<Piece> removePiece(Position position) {
         return setPiece(position, null);
     }
 
     private int getPieceIndex(Position position) {
+        // checking for an out-of-bounds position
+        if (isOutOfBoundsPosition(position)) {
+            throw new IndexOutOfBoundsException("Position out of bounds");
+        }
+
         return position.row() * numberOfRows + position.column();
     }
 

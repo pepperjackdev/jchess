@@ -1,22 +1,8 @@
 package me.pepperjackdev.chess.core.piece;
 
-public class Piece {
-    private final PieceType type;
-    private final PieceSide side;
+import me.pepperjackdev.chess.core.Side;
 
-    public Piece(PieceType type, PieceSide side) {
-        this.type = type;
-        this.side = side;
-    }
-
-    public PieceType getType() {
-        return type;
-    }
-
-    public PieceSide getSide() {
-        return side;
-    }
-
+public record Piece(PieceType type, Side side) {
     @Override
     public String toString() {
         return "%s_%s".formatted(side.toString(), type.toString());

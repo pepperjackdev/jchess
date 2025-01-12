@@ -1,7 +1,7 @@
 package me.pepperjackdev.chess.core.board;
 
 import me.pepperjackdev.chess.core.piece.Piece;
-import me.pepperjackdev.chess.core.piece.PieceSide;
+import me.pepperjackdev.chess.core.Side;
 import me.pepperjackdev.chess.core.piece.PieceType;
 import me.pepperjackdev.chess.core.position.Position;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +27,7 @@ public class BoardTest {
 
     @Test
     void testGetPieceAtPosition() {
-        Piece piece = new Piece(PieceType.PAWN, PieceSide.WHITE);
+        Piece piece = new Piece(PieceType.PAWN, Side.WHITE);
         underTest.setPiece(new Position(4, 4), piece);
         Optional<Piece> result = underTest.getPiece(new Position(4, 4));
         assertTrue(result.isPresent());
@@ -36,7 +36,7 @@ public class BoardTest {
 
     @Test
     void testSetPieceAtPosition() {
-        Piece piece = new Piece(PieceType.PAWN, PieceSide.WHITE);
+        Piece piece = new Piece(PieceType.PAWN, Side.WHITE);
         Optional<Piece> result = underTest.setPiece(new Position(4, 4), piece);
         assertTrue(result.isEmpty());
     }
@@ -48,18 +48,24 @@ public class BoardTest {
     }
 
     @Test
-    void testPollPieceAtPosition() {
-        Piece piece = new Piece(PieceType.PAWN, PieceSide.WHITE);
+    void testSetPieceAtInvalidPosition() {
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> underTest.setPiece(new Position(100, 100), new Piece(PieceType.PAWN, Side.WHITE)));
+    }
+
+    @Test
+    void testRemovePieceAtPosition() {
+        Piece piece = new Piece(PieceType.PAWN, Side.WHITE);
         underTest.setPiece(new Position(4, 4), piece);
-        Optional<Piece> result = underTest.pollPiece(new Position(4, 4));
+        Optional<Piece> result = underTest.removePiece(new Position(4, 4));
         assertTrue(result.isPresent());
         assertEquals(piece, result.get());
         assertTrue(underTest.getPiece(new Position(4, 4)).isEmpty());
     }
 
     @Test
-    void testSetPieceAtInvalidPosition() {
+    void testRemovePieceAtInvalidPosition() {
         assertThrows(IndexOutOfBoundsException.class,
-                () -> underTest.setPiece(new Position(100, 100), new Piece(PieceType.PAWN, PieceSide.WHITE)));
+                () -> underTest.removePiece(new Position(100, 100)));
     }
 }
