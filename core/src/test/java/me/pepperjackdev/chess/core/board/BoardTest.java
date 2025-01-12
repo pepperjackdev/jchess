@@ -28,8 +28,8 @@ public class BoardTest {
     @Test
     void testGetPieceAtPosition() {
         Piece piece = new Piece(PieceType.PAWN, Side.WHITE);
-        underTest.setPiece(new Position(4, 4), piece);
-        Optional<Piece> result = underTest.getPiece(new Position(4, 4));
+        underTest.setPiece(new Position(4, 6), piece);
+        Optional<Piece> result = underTest.getPiece(new Position(4, 6));
         assertTrue(result.isPresent());
         assertEquals(piece, result.get());
     }

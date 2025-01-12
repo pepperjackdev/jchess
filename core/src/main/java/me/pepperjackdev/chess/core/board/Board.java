@@ -48,7 +48,7 @@ public class Board {
             throw new IndexOutOfBoundsException("Position out of bounds");
         }
 
-        return position.row() * numberOfRows + position.column();
+        return position.row() * numberOfColumns + position.column();
     }
 
     public boolean isOutOfBoundsPosition(Position position) {
