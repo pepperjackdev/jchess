@@ -13,6 +13,10 @@ public class Game {
         this.board = board;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
     public Optional<Piece> move(Move move) {
         Piece piece = board.removePiece(move.from())
                 .orElseThrow(() -> new IllegalArgumentException("No piece at " + move.from()));

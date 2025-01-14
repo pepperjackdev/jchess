@@ -2,6 +2,7 @@ package me.pepperjackdev.chess.desktop;
 
 import me.pepperjackdev.chess.core.Side;
 import me.pepperjackdev.chess.core.board.Board;
+import me.pepperjackdev.chess.core.game.Game;
 import me.pepperjackdev.chess.core.piece.Piece;
 import me.pepperjackdev.chess.core.piece.PieceType;
 import me.pepperjackdev.chess.core.position.Position;
@@ -18,16 +19,19 @@ public class JChess
     private static final int APP_START_WIDTH = 800;
     private static final int APP_START_HEIGHT = 800;
 
-    public JChess() {
+    public JChess(Game game) {
         setTitle(APP_TITLE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(APP_START_WIDTH, APP_START_HEIGHT);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
 
-        // creating a board
-        Board board = new Board(8, 8);
-        add(new Chessboard(board), BorderLayout.CENTER);
+        // temp
+        game.getBoard().setPiece(new Position(0, 0), new Piece(PieceType.PAWN, Side.BLACK));
+        game.getBoard().setPiece(new Position(2, 1), new Piece(PieceType.KING, Side.WHITE));
+
+        // adding the chessboard to the main view
+        add(new Chessboard(game), BorderLayout.CENTER);
 
         // showing up the window
         setVisible(true);
@@ -35,6 +39,8 @@ public class JChess
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(JChess::new);
+        SwingUtilities.invokeLater(() -> {
+            new JChess(new Game(new Board(8, 8)));
+        });
     }
 }
