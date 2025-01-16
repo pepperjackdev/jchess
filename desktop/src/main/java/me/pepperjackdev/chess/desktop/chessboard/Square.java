@@ -1,4 +1,4 @@
-package me.pepperjackdev.chess.desktop.board;
+package me.pepperjackdev.chess.desktop.chessboard;
 
 import me.pepperjackdev.chess.core.position.Position;
 
