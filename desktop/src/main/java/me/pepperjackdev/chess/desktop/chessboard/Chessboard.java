@@ -19,7 +19,7 @@ public class Chessboard
         private Square sourceSquare;
         private ChessPiece draggingPiece;
         private Dimension pieceSize;
-        private Point dragOffset;
+        private boolean isPlaceIntoDragLayer;
 
         @Override
         public void mousePressed(MouseEvent e) {
@@ -31,13 +31,7 @@ public class Chessboard
                     draggingPiece = chessPiece;
                     pieceSize = sourceSquare.getSize();
 
-                    add(draggingPiece, JLayeredPane.DRAG_LAYER);
-                    sourceSquare.setChessPiece(null);
-
-                    dragOffset = SwingUtilities.convertPoint(boardPanel, e.getPoint(), Chessboard.this);
                     draggingPiece.setMaximumSize(pieceSize);
-
-                    repaint();
                 });
             }
         }
@@ -45,8 +39,14 @@ public class Chessboard
         @Override
         public void mouseDragged(MouseEvent e) {
             if (draggingPiece != null) {
+                if (!isPlaceIntoDragLayer) {
+                    sourceSquare.setChessPiece(null);
+                    add(draggingPiece, JLayeredPane.DRAG_LAYER);
+                    isPlaceIntoDragLayer = true;
+                }
+
                 // Update the piece's position to follow the cursor
-                dragOffset = SwingUtilities.convertPoint(boardPanel, e.getPoint(), Chessboard.this);
+                Point dragOffset = SwingUtilities.convertPoint(boardPanel, e.getPoint(), Chessboard.this);
                 draggingPiece.setBounds(
                         dragOffset.x - pieceSize.width / 2,
                         dragOffset.y - pieceSize.height / 2,
@@ -72,6 +72,7 @@ public class Chessboard
                 draggingPiece = null;
                 sourceSquare = null;
                 pieceSize = null;
+                isPlaceIntoDragLayer = false;
                 repaint();
             }
 
