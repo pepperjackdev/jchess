@@ -2,7 +2,6 @@ package me.pepperjackdev.chess.desktop;
 
 import me.pepperjackdev.chess.core.Side;
 import me.pepperjackdev.chess.core.board.Board;
-import me.pepperjackdev.chess.core.board.BoardBuilder;
 import me.pepperjackdev.chess.core.game.Game;
 import me.pepperjackdev.chess.core.piece.Piece;
 import me.pepperjackdev.chess.core.piece.PieceType;
@@ -37,7 +36,9 @@ public class JChess
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new JChess(new Game(BoardBuilder.buildBoard()));
+            Board board = new Board(8, 8);
+            board.setPiece(new Position(3, 3), new Piece(PieceType.KING, Side.WHITE));
+            new JChess(new Game(board));
         });
     }
 }

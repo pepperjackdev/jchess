@@ -1,6 +1,7 @@
 package me.pepperjackdev.chess.core.game;
 
 import me.pepperjackdev.chess.core.board.Board;
+import me.pepperjackdev.chess.core.game.state.GameState;
 import me.pepperjackdev.chess.core.move.Move;
 import me.pepperjackdev.chess.core.piece.Piece;
 import me.pepperjackdev.chess.core.Side;
@@ -21,7 +22,7 @@ public class GameTest {
     @BeforeEach
     void setUp() {
         board = new Board(8, 8);
-        underTest = new Game(board);
+        underTest = new Game(new GameState(new Board(8, 8)));
     }
 
     @Test
