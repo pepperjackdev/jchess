@@ -34,14 +34,12 @@ public class GameTest {
         board.setPiece(new Position(2, 3), blackPawn);
 
         // when
-        Optional<Piece> result =  underTest.move(new Move(
+        underTest.move(new Move(
                 new Position(1, 1),
                 new Position(2, 3)
         ));
 
         // then
-        assertTrue(result.isPresent());
-        assertEquals(blackPawn, result.get());
         assertTrue(board.getPiece(new Position(2, 3)).isPresent());
         assertFalse(board.getPiece(new Position(1, 1)).isPresent());
     }

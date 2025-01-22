@@ -1,4 +1,4 @@
-package me.pepperjackdev.chess.core.game.state;
+package me.pepperjackdev.chess.core.game.state.castling;
 
 public class CastlingRights {
     private boolean blackCanCastleKingSide;

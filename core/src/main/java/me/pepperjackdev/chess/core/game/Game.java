@@ -1,38 +1,28 @@
 package me.pepperjackdev.chess.core.game;
 
+import me.pepperjackdev.chess.core.game.business.MoveHandler;
 import me.pepperjackdev.chess.core.game.state.GameState;
 import me.pepperjackdev.chess.core.move.Move;
-import me.pepperjackdev.chess.core.piece.Piece;
-
-import java.util.List;
 
 public class Game {
     private final GameState gameState;
 
+    private final MoveHandler moveHandler;
+
     public Game(GameState gameState) {
         this.gameState = gameState;
+        this.moveHandler = new MoveHandler(gameState.getPiecePlacementData());
+    }
+
+    private MoveHandler getMoveHandler() {
+        if (moveHandler == null) {
+            throw new IllegalStateException("Move handler not set");
+        }
+
+        return moveHandler;
     }
 
     public void move(Move move) {
-        Piece piece = gameState.getPiecePlacementData().removePiece(move.from())
-                .orElseThrow(() -> new IllegalArgumentException("No piece at " + move.from()));
-
-        if (isLegalMove(move)) {
-            gameState.getPiecePlacementData().setPiece(move.to(), piece);
-        }
-    }
-
-    private boolean isLegalMove(Move move) {
-        return getLegalMoves().contains(move);
-    }
-
-    public List<Move> getPseudoLegalMoves() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    // TODO: implement tighter checks
-    public List<Move> getLegalMoves() {
-        // this method isn't supposed to work like this!
-        return getPseudoLegalMoves();
+        moveHandler.move(move);
     }
 }

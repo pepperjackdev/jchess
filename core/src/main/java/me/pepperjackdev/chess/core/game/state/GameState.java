@@ -2,6 +2,7 @@ package me.pepperjackdev.chess.core.game.state;
 
 import me.pepperjackdev.chess.core.Side;
 import me.pepperjackdev.chess.core.board.Board;
+import me.pepperjackdev.chess.core.game.state.castling.CastlingRights;
 import me.pepperjackdev.chess.core.position.Position;
 
 import java.util.Optional;
