@@ -1,5 +1,6 @@
 package me.pepperjackdev.chess.core.game.business;
 
+import me.pepperjackdev.chess.core.Side;
 import me.pepperjackdev.chess.core.board.Board;
 import me.pepperjackdev.chess.core.move.Move;
 import me.pepperjackdev.chess.core.piece.Piece;
@@ -34,8 +35,8 @@ public class MoveHandler {
                 .orElseThrow(() -> new IllegalStateException("No piece to move at " + move.from()));
         Optional<Piece> targetPiece = board.getPiece(move.to());
 
-        return isPossibleMove(move, movingPiece) &&
-                (targetPiece.isPresent() && !isAttackingFriend(movingPiece, targetPiece.get()));
+        return (targetPiece.isPresent() && !isAttackingFriend(movingPiece, targetPiece.get())) &&
+                isPossibleMove(move, movingPiece);
     }
 
     protected boolean isPossibleMove(final Move move, final Piece movingPiece) {
