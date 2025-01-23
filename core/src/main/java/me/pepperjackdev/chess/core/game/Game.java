@@ -1,5 +1,6 @@
 package me.pepperjackdev.chess.core.game;
 
+import me.pepperjackdev.chess.core.Side;
 import me.pepperjackdev.chess.core.game.business.MoveHandler;
 import me.pepperjackdev.chess.core.game.state.GameState;
 import me.pepperjackdev.chess.core.move.Move;
@@ -23,6 +24,16 @@ public class Game {
     }
 
     public void move(Move move) {
-        moveHandler.move(move);
+        gameState.getPiecePlacementData().getPiece(move.from()).ifPresent(piece -> {
+            if (piece.side() == gameState.getActiveColor()) {
+                if (moveHandler.move(move)) updateActiveColor();
+            }
+        });
+    }
+
+    private void updateActiveColor() {
+        gameState.setActiveColor(
+                (gameState.getActiveColor() == Side.WHITE) ? Side.BLACK : Side.WHITE
+        );
     }
 }

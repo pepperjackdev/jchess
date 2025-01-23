@@ -2,8 +2,10 @@ package me.pepperjackdev.chess.desktop;
 
 import me.pepperjackdev.chess.core.Side;
 import me.pepperjackdev.chess.core.board.Board;
+import me.pepperjackdev.chess.core.board.BoardBuilder;
 import me.pepperjackdev.chess.core.game.Game;
 import me.pepperjackdev.chess.core.game.state.GameState;
+import me.pepperjackdev.chess.core.game.state.castling.CastlingRights;
 import me.pepperjackdev.chess.core.piece.Piece;
 import me.pepperjackdev.chess.core.piece.PieceType;
 import me.pepperjackdev.chess.core.position.Position;
@@ -28,7 +30,14 @@ public class JChess
         setLocationRelativeTo(null);
 
         // adding the chessboard to the main view
-        add(new Chessboard(game), BorderLayout.CENTER);
+        add(new Chessboard(new GameState(
+                BoardBuilder.buildBoard(),
+                Side.WHITE,
+                new CastlingRights(true),
+                null,
+                0,
+                0
+        )), BorderLayout.CENTER);
 
         // showing up the window
         setVisible(true);

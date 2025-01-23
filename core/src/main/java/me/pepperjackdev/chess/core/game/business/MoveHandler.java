@@ -1,11 +1,11 @@
 package me.pepperjackdev.chess.core.game.business;
 
-import me.pepperjackdev.chess.core.Side;
 import me.pepperjackdev.chess.core.board.Board;
 import me.pepperjackdev.chess.core.move.Move;
 import me.pepperjackdev.chess.core.piece.Piece;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.Objects;
 
 public class MoveHandler {
     private final Board board;
@@ -14,15 +14,18 @@ public class MoveHandler {
         this.board = board;
     }
 
-    public void move(Move move) {
+    public boolean move(Move move) {
         // checking for out of bounds moves
         if (isOutOfBoundsMove(move)) {
             throw new IllegalStateException("Move out of bounds");
         }
 
         if (isLegalMove(move)) {
-            board.setPiece(move.to(), board.getPiece(move.from()).orElse(null));
+            board.setPiece(move.to(), board.removePiece(move.from()).orElse(null));
+            return true;
         }
+
+        return false;
     }
 
     public boolean isLegalMove(final Move move) {
@@ -33,18 +36,52 @@ public class MoveHandler {
     public boolean isPseudoLegalMove(final Move move) {
         Piece movingPiece = board.getPiece(move.from())
                 .orElseThrow(() -> new IllegalStateException("No piece to move at " + move.from()));
-        Optional<Piece> targetPiece = board.getPiece(move.to());
+        Piece targetPiece = board.getPiece(move.to()).orElse(null);
 
-        return (targetPiece.isPresent() && !isAttackingFriend(movingPiece, targetPiece.get())) &&
-                isPossibleMove(move, movingPiece);
+        return !isAttackingFriend(movingPiece, targetPiece)
+                && isPossibleMove(move, movingPiece, targetPiece);
     }
 
-    protected boolean isPossibleMove(final Move move, final Piece movingPiece) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    protected boolean isPossibleMove(final Move move, final Piece movingPiece, final Piece targetPiece) {
+        return switch (movingPiece.type()) {
+            case PAWN -> {
+                if (targetPiece != null) {
+                    yield switch (movingPiece.side()) {
+                        case BLACK -> Objects.equals(move.to(), move.from().moved(-1, 1)) ||
+                                        Objects.equals(move.to(), move.from().moved(-1, -1));
+                        case WHITE -> Objects.equals(move.to(), move.from().moved(1, 1)) ||
+                                Objects.equals(move.to(), move.from().moved(1, -1));
+                    };
+                } else {
+                    yield switch (movingPiece.side()) {
+                        case BLACK -> Objects.equals(move.to(), move.from().moved(-1, 0)) ||
+                            (Objects.equals(move.to(), move.from().moved(-2, 0)) && move.from().row() == 6);
+                        case WHITE -> Objects.equals(move.to(), move.from().moved(1, 0)) ||
+                                (Objects.equals(move.to(), move.from().moved(2, 0)) && move.from().row() == 1);
+                    };
+                }
+            }
+            case KNIGHT -> {
+                yield List.of(
+                        move.from().moved(2, 1),
+                        move.from().moved(2, -1),
+                        move.from().moved(1, 2),
+                        move.from().moved(1, -2),
+                        move.from().moved(-2, 1),
+                        move.from().moved(-2, -1),
+                        move.from().moved(-1, 2),
+                        move.from().moved(-1, -2)
+                ).contains(move.to());
+            }
+            case BISHOP -> false;
+            case ROOK -> false;
+            case QUEEN -> false;
+            case KING -> false;
+        };
     }
 
-    protected boolean isAttackingFriend(Piece movingPiece, Piece attackingPiece) {
-        return attackingPiece.side() == movingPiece.side();
+    protected boolean isAttackingFriend(Piece movingPiece, Piece targetPiece) {
+        return targetPiece != null && targetPiece.side() == movingPiece.side();
     }
 
     protected boolean isOutOfBoundsMove(Move move) {
