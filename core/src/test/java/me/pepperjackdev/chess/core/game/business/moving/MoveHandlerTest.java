@@ -1,4 +1,4 @@
-package me.pepperjackdev.chess.core.game.business;
+package me.pepperjackdev.chess.core.game.business.moving;
 
 import me.pepperjackdev.chess.core.Side;
 import me.pepperjackdev.chess.core.board.Board;

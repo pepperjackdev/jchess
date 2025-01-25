@@ -15,7 +15,6 @@ public class PieceDragHandler
     private Square sourceSquare;
     private ChessPiece draggingPiece;
     private Dimension pieceSize;
-    private boolean isPlaceIntoDragLayer;
 
     public PieceDragHandler(Chessboard chessboard) {
         this.chessboard = chessboard;
@@ -30,8 +29,20 @@ public class PieceDragHandler
                 sourceSquare = targetSquare;
                 draggingPiece = chessPiece;
                 pieceSize = sourceSquare.getSize();
-
                 draggingPiece.setMaximumSize(pieceSize);
+
+                sourceSquare.setChessPiece(null);
+                chessboard.add(draggingPiece, JLayeredPane.DRAG_LAYER);
+
+                // Update the piece's position to follow the cursor
+                Point dragOffset = SwingUtilities.convertPoint(chessboard.getBoardPanel(), e.getPoint(), chessboard);
+                draggingPiece.setBounds(
+                        dragOffset.x - pieceSize.width / 2,
+                        dragOffset.y - pieceSize.height / 2,
+                        pieceSize.width,
+                        pieceSize.height
+                );
+                draggingPiece.setLocation(e.getPoint());
             });
         }
     }
@@ -39,12 +50,6 @@ public class PieceDragHandler
     @Override
     public void  mouseDragged(MouseEvent e) {
         if (draggingPiece != null) {
-            if (!isPlaceIntoDragLayer) {
-                sourceSquare.setChessPiece(null);
-                chessboard.add(draggingPiece, JLayeredPane.DRAG_LAYER);
-                isPlaceIntoDragLayer = true;
-            }
-
             // Update the piece's position to follow the cursor
             Point dragOffset = SwingUtilities.convertPoint(chessboard.getBoardPanel(), e.getPoint(), chessboard);
             draggingPiece.setBounds(
@@ -53,7 +58,6 @@ public class PieceDragHandler
                     pieceSize.width,
                     pieceSize.height
             );
-            chessboard.repaint();
         }
     }
 
@@ -75,7 +79,6 @@ public class PieceDragHandler
             draggingPiece = null;
             sourceSquare = null;
             pieceSize = null;
-            isPlaceIntoDragLayer = false;
             chessboard.repaint();
         }
     }
