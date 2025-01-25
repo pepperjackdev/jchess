@@ -1,4 +1,4 @@
-package me.pepperjackdev.chess.core.game.business;
+package me.pepperjackdev.chess.core.game.business.moving;
 
 import me.pepperjackdev.chess.core.board.Board;
 import me.pepperjackdev.chess.core.move.Move;
@@ -14,7 +14,7 @@ public class MoveHandler {
         this.board = board;
     }
 
-    public boolean move(Move move) {
+    public MoveResult move(Move move) {
         // checking for out of bounds moves
         if (isOutOfBoundsMove(move)) {
             throw new IllegalStateException("Move out of bounds");
@@ -22,10 +22,10 @@ public class MoveHandler {
 
         if (isLegalMove(move)) {
             board.setPiece(move.to(), board.removePiece(move.from()).orElse(null));
-            return true;
+            return MoveResult.OK;
         }
 
-        return false;
+        return MoveResult.FAILED;
     }
 
     public boolean isLegalMove(final Move move) {
