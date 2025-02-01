@@ -1,42 +1,57 @@
 package me.pepperjackdev.chess.core.game;
 
 import me.pepperjackdev.chess.core.Side;
-import me.pepperjackdev.chess.core.game.business.moving.MoveHandler;
-import me.pepperjackdev.chess.core.game.business.moving.MoveResult;
+import me.pepperjackdev.chess.core.board.Board;
 import me.pepperjackdev.chess.core.game.state.GameState;
 import me.pepperjackdev.chess.core.move.Move;
+import me.pepperjackdev.chess.core.piece.Piece;
+
+import javax.swing.text.html.Option;
+import java.util.Optional;
 
 public class Game {
     private final GameState gameState;
 
-    private final MoveHandler moveHandler;
-
     public Game(GameState gameState) {
         this.gameState = gameState;
-        this.moveHandler = new MoveHandler(gameState.getPiecePlacementData());
     }
 
-    private MoveHandler getMoveHandler() {
-        if (moveHandler == null) {
-            throw new IllegalStateException("Move handler not set");
+    private Board getBoard() {
+        return gameState.getPiecePlacementData();
+    };
+
+    public Optional<Piece> move(Move move) {
+        if (isOutOfBoundsMove(move)) {
+            throw new IllegalArgumentException("Move is out of bounds");
         }
 
-        return moveHandler;
+        Optional<Piece> movingPiece = getBoard().getPiece(move.from());
+        if (movingPiece.isEmpty()) {
+            throw new IllegalArgumentException("Piece to move not found");
+        }
+
+        if (movingPiece.get().side() != gameState.getActiveColor()) {
+            return Optional.empty();
+        }
+
+        Optional<Piece> attackedPiece = getBoard().getPiece(move.to());
+        if (isAttackingFriend(movingPiece.get(), attackedPiece.orElse(null))) {
+            throw new IllegalArgumentException("Could not attack friend piece");
+        }
+
+        getBoard().setPiece(move.to(), movingPiece.get());
+        getBoard().removePiece(move.from());
+        gameState.setActiveColor(gameState.getActiveColor() == Side.WHITE ? Side.BLACK : Side.WHITE);
+        return attackedPiece;
     }
 
-    public void move(Move move) {
-        gameState.getPiecePlacementData().getPiece(move.from()).ifPresent(piece -> {
-            if (piece.side() == gameState.getActiveColor()) {
-                if (moveHandler.move(move) == MoveResult.OK) {
-                    updateActiveColor();
-                };
-            }
-        });
+    protected boolean isOutOfBoundsMove(Move move) {
+        return getBoard().isOutOfBoundsPosition(move.from()) ||
+                getBoard().isOutOfBoundsPosition(move.to());
     }
 
-    private void updateActiveColor() {
-        gameState.setActiveColor(
-                (gameState.getActiveColor() == Side.WHITE) ? Side.BLACK : Side.WHITE
-        );
+    protected boolean isAttackingFriend(Piece moving, Piece attacked) {
+        return attacked != null &&
+                moving.side() == attacked.side();
     }
 }

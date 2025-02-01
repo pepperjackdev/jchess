@@ -2,7 +2,6 @@ package me.pepperjackdev.chess.desktop;
 
 import me.pepperjackdev.chess.core.Side;
 import me.pepperjackdev.chess.core.board.Board;
-import me.pepperjackdev.chess.core.board.BoardBuilder;
 import me.pepperjackdev.chess.core.game.Game;
 import me.pepperjackdev.chess.core.game.state.GameState;
 import me.pepperjackdev.chess.core.game.state.castling.CastlingRights;
@@ -31,7 +30,7 @@ public class JChess
 
         // adding the chessboard to the main view
         add(new Chessboard(new GameState(
-                BoardBuilder.buildBoard(),
+                new Board(8, 8),
                 Side.WHITE,
                 new CastlingRights(true),
                 null,

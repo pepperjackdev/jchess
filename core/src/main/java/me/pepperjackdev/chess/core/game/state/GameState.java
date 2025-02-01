@@ -70,11 +70,19 @@ public class GameState {
         this.halfMoveClock = halfMoveClock;
     }
 
+    public void increaseHalfMoveClock() {
+        setHalfMoveClock(getHalfMoveClock() + 1);
+    }
+
     public int getFullMoveClock() {
         return fullMoveClock;
     }
 
     public void setFullMoveClock(int fullMoveClock) {
         this.fullMoveClock = fullMoveClock;
+    }
+
+    public void increaseFullMoveClock() {
+        setFullMoveClock(getFullMoveClock() + 1);
     }
 }
