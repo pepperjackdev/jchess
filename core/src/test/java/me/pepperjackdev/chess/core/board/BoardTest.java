@@ -35,16 +35,16 @@ public class BoardTest {
     }
 
     @Test
+    void testGetPieceAtInvalidPosition() {
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> underTest.getPiece(new Position(100, 100)));
+    }
+
+    @Test
     void testSetPieceAtPosition() {
         Piece piece = new Piece(PieceType.PAWN, Side.WHITE);
         Optional<Piece> result = underTest.setPiece(new Position(4, 4), piece);
         assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void testGetPieceAtInvalidPosition() {
-        assertThrows(IndexOutOfBoundsException.class,
-                () -> underTest.getPiece(new Position(100, 100)));
     }
 
     @Test
@@ -67,5 +67,40 @@ public class BoardTest {
     void testRemovePieceAtInvalidPosition() {
         assertThrows(IndexOutOfBoundsException.class,
                 () -> underTest.removePiece(new Position(100, 100)));
+    }
+
+    @Test
+    void testGetTopLeftCornerPosition() {
+        assertEquals(new Position(7, 0), underTest.getTopLeftCornerPosition());
+    }
+
+    @Test
+    void testGetTopRightCornerPosition() {
+        assertEquals(new Position(7, 7), underTest.getTopRightCornerPosition());
+    }
+
+    @Test
+    void testGetBottomLeftCornerPosition() {
+        assertEquals(new Position(0, 0), underTest.getBottomLeftCornerPosition());
+    }
+
+    @Test
+    void testGetBottomRightCornerPosition() {
+        assertEquals(new Position(0, 7), underTest.getBottomRightCornerPosition());
+    }
+
+    @Test
+    void testIsOutOfBoundsPositionWithInBoundsPosition() {
+        assertFalse(underTest.isOutOfBoundsPosition(new Position(3, 3)));
+    }
+
+    @Test
+    void testIsOutOfBoundsPositionWithOutBoundsRow() {
+        assertTrue(underTest.isOutOfBoundsPosition(new Position(100, 3)));
+    }
+
+    @Test
+    void testIsOutOfBoundsPositionWithOutBoundsColumn() {
+        assertTrue(underTest.isOutOfBoundsPosition(new Position(3, 100)));
     }
 }

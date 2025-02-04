@@ -5,4 +5,8 @@ public record Position(int row, int column) {
     public String toString() {
         return "(" + row + ", " + column + ")";
     }
+
+    public Position moved(int deltaRows, int deltaColumns) {
+        return new Position(row() + deltaRows, column() + deltaColumns);
+    }
 }

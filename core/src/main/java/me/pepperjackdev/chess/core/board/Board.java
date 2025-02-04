@@ -51,6 +51,22 @@ public class Board {
         return position.row() * numberOfColumns + position.column();
     }
 
+    public Position getTopLeftCornerPosition() {
+        return new Position(getNumberOfRows() - 1, 0);
+    }
+
+    public Position getTopRightCornerPosition() {
+        return new Position(getNumberOfRows() - 1, getNumberOfColumns() - 1);
+    }
+
+    public Position getBottomLeftCornerPosition() {
+        return new Position(0, 0);
+    }
+
+    public Position getBottomRightCornerPosition() {
+        return new Position(0, getNumberOfColumns() - 1);
+    }
+
     public boolean isOutOfBoundsPosition(Position position) {
         return position.row() < 0 ||
                 position.row() >= numberOfRows ||
