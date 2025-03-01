@@ -2,27 +2,24 @@ package me.pepperjackdev.chess.core.board;
 
 import me.pepperjackdev.chess.core.piece.Piece;
 import me.pepperjackdev.chess.core.position.Position;
+import me.pepperjackdev.chess.core.position.PositionIterator;
 
+import java.util.Iterator;
 import java.util.Optional;
 
-public class Board {
-    private final int numberOfRows;
-    private final int numberOfColumns;
+public class Board
+    implements Iterable<Position> {
+    private final BoardSize bounds;
 
     private final Piece[] piece;
 
-    public Board(int numberOfRows, int numberOfColumns) {
-        this.numberOfRows = numberOfRows;
-        this.numberOfColumns = numberOfColumns;
-        this.piece = new Piece[numberOfRows * numberOfColumns];
+    public Board(BoardSize bounds) {
+        this.bounds = bounds;
+        this.piece = new Piece[bounds.numberOfRows() * bounds.numberOfColumns()];
     }
 
-    public int getNumberOfRows() {
-        return numberOfRows;
-    }
-
-    public int getNumberOfColumns() {
-        return numberOfColumns;
+    public BoardSize getBounds() {
+        return bounds;
     }
 
     public Optional<Piece> getPiece(Position position) {
@@ -44,19 +41,20 @@ public class Board {
 
     private int getPieceIndex(Position position) {
         // checking for an out-of-bounds position
-        if (isOutOfBoundsPosition(position)) {
+        if (getBounds().isOutOfBounds(position)) {
             throw new IndexOutOfBoundsException("Position out of bounds");
         }
 
-        return position.row() * numberOfColumns + position.column();
+        return position.row() * bounds.numberOfRows() + position.column();
     }
 
     public Position getTopLeftCornerPosition() {
-        return new Position(getNumberOfRows() - 1, 0);
+        return new Position(getBounds().numberOfRows() - 1, 0);
     }
 
     public Position getTopRightCornerPosition() {
-        return new Position(getNumberOfRows() - 1, getNumberOfColumns() - 1);
+        return new Position(getBounds().numberOfRows() - 1,
+                getBounds().numberOfColumns() - 1);
     }
 
     public Position getBottomLeftCornerPosition() {
@@ -64,13 +62,11 @@ public class Board {
     }
 
     public Position getBottomRightCornerPosition() {
-        return new Position(0, getNumberOfColumns() - 1);
+        return new Position(0, getBounds().numberOfColumns() - 1);
     }
 
-    public boolean isOutOfBoundsPosition(Position position) {
-        return position.row() < 0 ||
-                position.row() >= numberOfRows ||
-                position.column() < 0 ||
-                position.column() >= numberOfColumns;
+    @Override
+    public Iterator<Position> iterator() {
+        return new PositionIterator(bounds);
     }
 }

@@ -1,8 +1,5 @@
 package me.pepperjackdev.chess.io.fen;
 
-import me.pepperjackdev.chess.core.board.Board;
-import me.pepperjackdev.chess.core.position.Position;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

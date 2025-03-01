@@ -1,12 +1,22 @@
 package me.pepperjackdev.chess.core.position;
 
+import java.util.Objects;
+
 public record Position(int row, int column) {
     @Override
     public String toString() {
         return "(" + row + ", " + column + ")";
     }
 
-    public Position moved(int deltaRows, int deltaColumns) {
-        return new Position(row() + deltaRows, column() + deltaColumns);
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return row == position.row && column == position.column;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
     }
 }

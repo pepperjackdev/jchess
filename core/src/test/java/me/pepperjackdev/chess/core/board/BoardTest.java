@@ -7,6 +7,7 @@ import me.pepperjackdev.chess.core.position.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,13 +17,13 @@ public class BoardTest {
 
     @BeforeEach
     void setUp() {
-        underTest = new Board(8, 8);
+        underTest = new Board(new BoardSize(8, 8));
     }
 
     @Test
     void testConstructBoard() {
-        assertEquals(8, underTest.getNumberOfRows());
-        assertEquals(8, underTest.getNumberOfColumns());
+        assertEquals(8, underTest.getBounds().numberOfRows());
+        assertEquals(8, underTest.getBounds().numberOfColumns());
     }
 
     @Test
@@ -91,16 +92,26 @@ public class BoardTest {
 
     @Test
     void testIsOutOfBoundsPositionWithInBoundsPosition() {
-        assertFalse(underTest.isOutOfBoundsPosition(new Position(3, 3)));
+        assertFalse(underTest.getBounds().isOutOfBounds(new Position(3, 3)));
     }
 
     @Test
     void testIsOutOfBoundsPositionWithOutBoundsRow() {
-        assertTrue(underTest.isOutOfBoundsPosition(new Position(100, 3)));
+        assertTrue(underTest.getBounds().isOutOfBounds(new Position(100, 3)));
     }
 
     @Test
     void testIsOutOfBoundsPositionWithOutBoundsColumn() {
-        assertTrue(underTest.isOutOfBoundsPosition(new Position(3, 100)));
+        assertTrue(underTest.getBounds().isOutOfBounds(new Position(3, 100)));
+    }
+
+    @Test
+    void testIterator() {
+        Iterator<Position> iterator = underTest.iterator();
+        for (int row = 0; row < underTest.getBounds().numberOfRows(); row++) {
+            for (int column = 0; column < underTest.getBounds().numberOfColumns(); column++) {
+                assertEquals(new Position(row, column), iterator.next());
+            }
+        }
     }
 }
