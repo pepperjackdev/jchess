@@ -70,9 +70,6 @@ public class PieceDragHandler
                 chessboard.getGame().move(new Move(sourceSquare.getPosition(), targetSquare.getPosition()));
                 chessboard.remove(draggingPiece);
                 chessboard.getBoardPanel().loadPieces();
-            } else if (sourceSquare != null) {
-                chessboard.remove(draggingPiece);
-                sourceSquare.setChessPiece(draggingPiece);
             }
 
             // clearing the vars

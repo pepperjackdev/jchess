@@ -2,13 +2,14 @@ package me.pepperjackdev.chess.desktop.chessboard;
 
 import me.pepperjackdev.chess.core.Side;
 import me.pepperjackdev.chess.core.board.Board;
+import me.pepperjackdev.chess.core.board.BoardSize;
 import me.pepperjackdev.chess.core.piece.Piece;
 import me.pepperjackdev.chess.core.piece.PieceType;
 import me.pepperjackdev.chess.core.position.Position;
 
 public class BoardBuilder {
     public static Board buildBoard() {
-        Board board = new Board(8, 8);
+        Board board = new Board(new BoardSize(8, 8));
         board.setPiece(new Position(0, 0), new Piece(PieceType.ROOK, Side.WHITE));
         board.setPiece(new Position(0, 1), new Piece(PieceType.KNIGHT, Side.WHITE));
         board.setPiece(new Position(0, 2), new Piece(PieceType.BISHOP, Side.WHITE));
