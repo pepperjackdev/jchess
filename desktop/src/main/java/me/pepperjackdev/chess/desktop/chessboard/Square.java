@@ -1,5 +1,7 @@
 package me.pepperjackdev.chess.desktop.chessboard;
 
+import me.pepperjackdev.chess.core.position.Position;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Optional;
