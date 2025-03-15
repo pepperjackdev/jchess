@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BoardSizeTest {
-    private BoardSize underTest;
+public class BoundsTest {
+    private Bounds underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new BoardSize(8, 8);
+        underTest = new Bounds(8, 8);
     }
 
     @Test

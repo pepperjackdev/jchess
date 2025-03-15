@@ -7,6 +7,7 @@ import me.pepperjackdev.chess.core.position.Position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Game {
     private final GameState gameState;
@@ -41,9 +42,9 @@ public class Game {
 
     private List<Move> generatePseudoLegalMoves() {
         List<Move> pseudoLegalMoves = new ArrayList<>();
-
         for (Position position: gameState.getPiecePlacementData()) {
-            System.out.println(position);
+            Optional<Piece> optionalPiece = gameState.getPiecePlacementData().getPiece(position);
+            optionalPiece.ifPresent(piece -> pseudoLegalMoves.addAll(new MoveGenerator(position, gameState.getPiecePlacementData(), piece).generatePieceMoves()));
         }
 
         return pseudoLegalMoves;

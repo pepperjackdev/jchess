@@ -1,6 +1,6 @@
 package me.pepperjackdev.chess.core.position;
 
-import me.pepperjackdev.chess.core.board.BoardSize;
+import me.pepperjackdev.chess.core.board.Bounds;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -10,9 +10,9 @@ public class PositionIterator
 
     private int row;
     private int column;
-    private final BoardSize bounds;
+    private final Bounds bounds;
 
-    public PositionIterator(BoardSize bounds) {
+    public PositionIterator(Bounds bounds) {
         this.row = 0;
         this.column = 0;
         this.bounds = bounds;
@@ -20,8 +20,9 @@ public class PositionIterator
 
     @Override
     public boolean hasNext() {
-        return row < bounds.numberOfRows() ||
-                column < bounds.numberOfColumns();
+        return (row < bounds.numberOfRows() ||
+                column < bounds.numberOfColumns()) &&
+                (row * bounds.numberOfRows() + column < bounds.numberOfColumns() * bounds.numberOfRows());
     }
 
     @Override

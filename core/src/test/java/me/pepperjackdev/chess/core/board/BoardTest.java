@@ -17,7 +17,7 @@ public class BoardTest {
 
     @BeforeEach
     void setUp() {
-        underTest = new Board(new BoardSize(8, 8));
+        underTest = new Board(new Bounds(8, 8));
     }
 
     @Test

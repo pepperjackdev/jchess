@@ -9,16 +9,16 @@ import java.util.Optional;
 
 public class Board
     implements Iterable<Position> {
-    private final BoardSize bounds;
+    private final Bounds bounds;
 
     private final Piece[] piece;
 
-    public Board(BoardSize bounds) {
+    public Board(Bounds bounds) {
         this.bounds = bounds;
         this.piece = new Piece[bounds.numberOfRows() * bounds.numberOfColumns()];
     }
 
-    public BoardSize getBounds() {
+    public Bounds getBounds() {
         return bounds;
     }
 
