@@ -44,7 +44,7 @@ public class Game {
         List<Move> pseudoLegalMoves = new ArrayList<>();
         for (Position position: gameState.getPiecePlacementData()) {
             Optional<Piece> optionalPiece = gameState.getPiecePlacementData().getPiece(position);
-            optionalPiece.ifPresent(piece -> pseudoLegalMoves.addAll(new MoveGenerator(position, gameState.getPiecePlacementData(), piece).generatePieceMoves()));
+            optionalPiece.ifPresent(piece -> pseudoLegalMoves.addAll(new MoveGenerator(position, gameState.getPiecePlacementData(), piece).generate()));
         }
 
         return pseudoLegalMoves;

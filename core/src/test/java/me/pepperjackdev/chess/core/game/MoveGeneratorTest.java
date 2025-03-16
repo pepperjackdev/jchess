@@ -32,7 +32,7 @@ public class MoveGeneratorTest {
     @Test
     void testGenerateMovesForAlonePawn() {
         assertEquals(List.of(
-                new Move(startPosition, new Position(1, 3)), new Move(startPosition, new Position(2, 3))), underTest.generatePieceMoves());
+                new Move(startPosition, new Position(1, 3)), new Move(startPosition, new Position(2, 3))), underTest.generate());
     }
 
 }
