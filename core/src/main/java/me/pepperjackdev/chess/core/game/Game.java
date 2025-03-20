@@ -1,5 +1,6 @@
 package me.pepperjackdev.chess.core.game;
 
+import me.pepperjackdev.chess.core.Side;
 import me.pepperjackdev.chess.core.game.state.GameState;
 import me.pepperjackdev.chess.core.move.Move;
 import me.pepperjackdev.chess.core.piece.Piece;
@@ -31,6 +32,10 @@ public class Game {
 
             getGameState().getPiecePlacementData().setPiece(move.to(), moving);
 
+            gameState.incrementHalfMoveClock();
+            if (moving.side() == Side.BLACK) gameState.incrementFullMoveClock();
+            gameState.updateActiveColor();
+
             this.possibleLegalMoves = generateLegalMoves();
         }
     }
@@ -44,7 +49,14 @@ public class Game {
         List<Move> pseudoLegalMoves = new ArrayList<>();
         for (Position position: gameState.getPiecePlacementData()) {
             Optional<Piece> optionalPiece = gameState.getPiecePlacementData().getPiece(position);
-            optionalPiece.ifPresent(piece -> pseudoLegalMoves.addAll(new MoveGenerator(position, gameState.getPiecePlacementData(), piece).generate()));
+
+            if (optionalPiece.isPresent() && optionalPiece.get().side() == gameState.getActiveColor()) {
+                pseudoLegalMoves.addAll(new MoveGenerator(
+                        position,
+                        gameState.getPiecePlacementData(),
+                        optionalPiece.get()
+                ).generate());
+            }
         }
 
         return pseudoLegalMoves;

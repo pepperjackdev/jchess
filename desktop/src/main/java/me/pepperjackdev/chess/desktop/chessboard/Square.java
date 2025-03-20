@@ -1,5 +1,6 @@
 package me.pepperjackdev.chess.desktop.chessboard;
 
+import me.pepperjackdev.chess.core.move.Move;
 import me.pepperjackdev.chess.core.position.Position;
 
 import javax.swing.*;

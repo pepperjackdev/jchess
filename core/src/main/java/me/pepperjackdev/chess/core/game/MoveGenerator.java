@@ -1,6 +1,5 @@
 package me.pepperjackdev.chess.core.game;
 
-import me.pepperjackdev.chess.core.Side;
 import me.pepperjackdev.chess.core.board.Board;
 import me.pepperjackdev.chess.core.move.Move;
 import me.pepperjackdev.chess.core.piece.Piece;
@@ -19,6 +18,7 @@ public class MoveGenerator {
     public static final int NO_MOVE_GENERATION_LIMIT = 0;
 
     public final Predicate<Optional<Piece>> emptyOrOccupiedByOpposite;
+    public final Predicate<Optional<Piece>> occupiedByOpposite;
 
     private final Position startPosition;
     private final Board board;
@@ -31,6 +31,9 @@ public class MoveGenerator {
 
         emptyOrOccupiedByOpposite =
                 (optionalPiece) -> optionalPiece.isEmpty() || optionalPiece.get().isOppositeOf(piece);
+
+        occupiedByOpposite =
+                (optionalPiece) -> optionalPiece.isPresent() && optionalPiece.get().isOppositeOf(piece);
     }
 
     public List<Move> generate() {
@@ -51,13 +54,13 @@ public class MoveGenerator {
     protected List<Move> generateDirectionMoves(SmartDirections smartDirections) {
         List<Move> moves = new ArrayList<>();
 
-        for (Direction direction : smartDirections.directions()) {
+        for (Direction direction : smartDirections.getDirections()) {
             Position currentPosition = startPosition.moved(direction);
-            for (int i = 0;
-                 (smartDirections.limit() == NO_MOVE_GENERATION_LIMIT || i < smartDirections.limit()) && !board.getBounds().isOutOfBounds(currentPosition);
+            for (int i = smartDirections.getSkip();
+                 (smartDirections.getLimit() == NO_MOVE_GENERATION_LIMIT || i < smartDirections.getLimit()) && !board.getBounds().isOutOfBounds(currentPosition);
                  i++, currentPosition = currentPosition.moved(direction)) {
 
-                if (smartDirections.filter() == null || smartDirections.filter().test(board.getPiece(currentPosition))) {
+                if (smartDirections.getFilter() == null || smartDirections.getFilter().test(board.getPiece(currentPosition))) {
                     moves.add(new Move(startPosition, currentPosition));
                 } else {
                     break;
@@ -73,12 +76,12 @@ public class MoveGenerator {
             case WHITE -> generateAllDirectionsMoves(List.of(
                     new SmartDirections(List.of(NORTH), 1, Optional::isEmpty),
                     new SmartDirections(List.of(NORTH_WEST, NORTH_EAST), 1,
-                            piece -> piece.isPresent() && piece.get().side() == Side.BLACK)
+                            occupiedByOpposite)
             ));
             case BLACK -> generateAllDirectionsMoves(List.of(
                     new SmartDirections(List.of(SOUTH), 1, Optional::isEmpty),
                     new SmartDirections(List.of(SOUTH_WEST, SOUTH_EAST), 1,
-                            piece -> piece.isPresent() && piece.get().side() == Side.WHITE)
+                            occupiedByOpposite)
             ));
         };
     }

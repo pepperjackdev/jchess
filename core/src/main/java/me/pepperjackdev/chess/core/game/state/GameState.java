@@ -50,6 +50,10 @@ public class GameState {
         this.activeColor = activeColor;
     }
 
+    public void updateActiveColor() {
+        setActiveColor(activeColor == Side.WHITE ? Side.BLACK : Side.WHITE);
+    }
+
     public CastlingRights getCastlingRights() {
         return castlingRights;
     }
@@ -70,11 +74,19 @@ public class GameState {
         this.halfMoveClock = halfMoveClock;
     }
 
+    public void incrementHalfMoveClock() {
+        halfMoveClock++;
+    }
+
     public int getFullMoveClock() {
         return fullMoveClock;
     }
 
     public void setFullMoveClock(int fullMoveClock) {
         this.fullMoveClock = fullMoveClock;
+    }
+
+    public void incrementFullMoveClock() {
+        fullMoveClock++;
     }
 }
